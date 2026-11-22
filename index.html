@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SQL Lab — Interactive Practice</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/sql-wasm.js"></script>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --surface-alt: #f1f5f9;
+      --border: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --text: #0f172a;
+      --text-muted: #475569;
+      --primary: #1e3a8a;       /* Classic Deep Navy */
+      --primary-hover: #172554;
+      --primary-tint: #eff6ff;
+      --success: #047857;       /* Classic Emerald */
+      --success-bg: #ecfdf5;
+      --success-border: #a7f3d0;
+      --error: #b91c1c;
+      --error-bg: #fef2f2;
+      --error-border: #fecaca;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Full-width Top Header */
+    header {
+      width: 100%;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .progress-badge {
+      background: var(--primary-tint);
+      color: var(--primary);
+      border: 1px solid #bfdbfe;
+      padding: 0.35rem 0.9rem;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.875rem;
+    }
+
+    /* Full-Width Split Workspace */
+    .workspace {
+      width: 100%;
+      flex: 1;
+      padding: 1.5rem 2rem 2.5rem;
+      display: grid;
+      grid-template-columns: minmax(340px, 1fr) minmax(420px, 1.35fr);
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    @media (max-width: 960px) {
+      .workspace {
+        grid-template-columns: 1fr;
+        padding: 1.25rem;
+      }
+      header { padding: 1rem 1.25rem; }
+    }
+
+    .column {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      min-width: 0;
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.9rem;
+      padding-bottom: 0.65rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.88em;
+      background: var(--surface-alt);
+      padding: 0.12rem 0.4rem;
+      border-radius: 4px;
+      color: var(--primary);
+    }
+
+    /* Minimalist Data Table */
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    th, td {
+      padding: 0.55rem 0.85rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      background: var(--surface-alt);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    tr:last-child td { border-bottom: none; }
+    tbody tr:hover { background: #f8fafc; }
+
+    /* Task List */
+    .task-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .task-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.75rem 0.9rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: border-color 0.15s ease, background 0.15s ease;
+      font-size: 0.92rem;
+    }
+
+    .task-item:hover {
+      border-color: var(--border-strong);
+      background: var(--bg);
+    }
+
+    .task-item.active {
+      border-color: var(--primary);
+      background: var(--primary-tint);
+    }
+
+    .task-item.completed {
+      border-color: var(--success-border);
+      background: var(--success-bg);
+    }
+
+    .task-num {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      border-radius: 4px;
+      background: var(--surface-alt);
+      color: var(--text-muted);
+      font-weight: 700;
+      font-size: 0.8rem;
+      display: grid;
+      place-items: center;
+    }
+
+    .task-item.active .task-num {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .task-item.completed .task-num {
+      background: var(--success);
+      color: #ffffff;
+    }
+
+    /* SQL Editor */
+    textarea {
+      width: 100%;
+      height: 140px;
+      padding: 0.85rem 1rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.94rem;
+      line-height: 1.5;
+      color: var(--text);
+      background: #fcfcfd;
+      border: 1px solid var(--border-strong);
+      border-radius: 6px;
+      resize: vertical;
+      outline: none;
+    }
+
+    textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.12);
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 0.85rem;
+      align-items: center;
+    }
+
+    button {
+      padding: 0.55rem 1.1rem;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+
+    #run-btn {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    #run-btn:hover { background: var(--primary-hover); }
+
+    #hint-btn, #reset-btn {
+      background: var(--surface);
+      color: var(--text);
+      border-color: var(--border-strong);
+    }
+
+    #hint-btn:hover, #reset-btn:hover { background: var(--surface-alt); }
+
+    .shortcut-note {
+      margin-left: auto;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .hint-box {
+      margin-top: 0.75rem;
+      padding: 0.65rem 0.9rem;
+      background: var(--surface-alt);
+      border-left: 3px solid var(--primary);
+      border-radius: 4px;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      display: none;
+    }
+
+    .feedback {
+      margin-top: 0.85rem;
+      padding: 0.7rem 0.95rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+
+    .feedback.pass {
+      background: var(--success-bg);
+      border-color: var(--success-border);
+      color: var(--success);
+    }
+
+    .feedback.fail {
+      background: var(--error-bg);
+      border-color: var(--error-border);
+      color: var(--error);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <h1>SQL Interactive Lab</h1>
+      <p class="subtitle">Relational Queries &amp; Filtering Practice</p>
+    </div>
+    <div class="progress-badge" id="progress-pill">0 / 5 Completed</div>
+  </header>
+
+  <main class="workspace">
+    <!-- Left Column: Reference Table & Tasks -->
+    <div class="column">
+      <section class="panel">
+        <div class="panel-header">
+          <h2>Table: <code>movies</code></h2>
+          <span style="font-size:0.8rem;color:var(--text-muted);">8 rows</span>
+        </div>
+        <div class="table-wrap" id="table-preview">Loading database...</div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <h2>Exercises</h2>
+          <span style="font-size:0.8rem;color:var(--text-muted);">Click a task to solve</span>
+        </div>
+        <ul class="task-list" id="task-list"></ul>
+      </section>
+    </div>
+
+    <!-- Right Column: SQL Editor & Query Output -->
+    <div class="column">
+      <section class="panel">
+        <div class="panel-header">
+          <h2 id="active-task-title">Task 1 of 5</h2>
+        </div>
+        <textarea id="sql-input" spellcheck="false">SELECT * FROM movies;</textarea>
+        <div class="controls">
+          <button id="run-btn">Run Query</button>
+          <button id="hint-btn">Show Hint</button>
+          <button id="reset-btn">Reset Database</button>
+          <span class="shortcut-note">Shortcut: Ctrl + Enter</span>
+        </div>
+        <div class="hint-box" id="hint-box"></div>
+        <div class="feedback" id="feedback-box">Write your SQL query above and click Run Query.</div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <h2>Query Results</h2>
+        </div>
+        <div class="table-wrap" id="query-output">
+          <p style="padding:0.75rem 1rem;margin:0;color:var(--text-muted);font-size:0.9rem;">Run a query to inspect the output rows.</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    let SQL = null;
+    let db = null;
+    let currentTaskIndex = 0;
+
+    const SEED_SQL = `
+      CREATE TABLE movies (
+        id INTEGER PRIMARY KEY,
+        title TEXT,
+        director TEXT,
+        year INTEGER,
+        length_minutes INTEGER
+      );
+      INSERT INTO movies VALUES
+        (1, 'Toy Story', 'John Lasseter', 1995, 81),
+        (2, 'A Bug''s Life', 'John Lasseter', 1998, 95),
+        (3, 'Toy Story 2', 'John Lasseter', 1999, 93),
+        (4, 'Monsters, Inc.', 'Pete Docter', 2001, 92),
+        (5, 'Finding Nemo', 'Andrew Stanton', 2003, 100),
+        (6, 'The Incredibles', 'Brad Bird', 2004, 115),
+        (7, 'WALL-E', 'Andrew Stanton', 2008, 98),
+        (8, 'Up', 'Pete Docter', 2009, 96);
+    `;
+
+    const TASKS = [
+      {
+        prompt: "Find the <code>title</code> and <code>year</code> of all movies released before the year <strong>2000</strong>.",
+        hint: "Use <code>SELECT title, year FROM movies WHERE year &lt; 2000;</code>",
+        solution: "SELECT title, year FROM movies WHERE year < 2000;",
+        starter: "SELECT title, year\nFROM movies\nWHERE ",
+        solved: false
+      },
+      {
+        prompt: "List all movies directed by <strong>John Lasseter</strong>, sorted by <code>year</code> ascending.",
+        hint: "Filter with <code>WHERE director = 'John Lasseter'</code> and add <code>ORDER BY year ASC</code>.",
+        solution: "SELECT * FROM movies WHERE director = 'John Lasseter' ORDER BY year ASC;",
+        starter: "SELECT *\nFROM movies\nWHERE ",
+        solved: false
+      },
+      {
+        prompt: "Find the <code>title</code> and <code>length_minutes</code> of the <strong>top 3 longest</strong> movies.",
+        hint: "Sort descending with <code>ORDER BY length_minutes DESC</code> and restrict rows with <code>LIMIT 3</code>.",
+        solution: "SELECT title, length_minutes FROM movies ORDER BY length_minutes DESC LIMIT 3;",
+        starter: "SELECT title, length_minutes\nFROM movies\nORDER BY ",
+        solved: false
+      },
+      {
+        prompt: "Count how many movies each <code>director</code> has made (return <code>director</code> and <code>movie_count</code>).",
+        hint: "Use <code>SELECT director, COUNT(*) AS movie_count FROM movies GROUP BY director;</code>",
+        solution: "SELECT director, COUNT(*) AS movie_count FROM movies GROUP BY director;",
+        starter: "SELECT director, COUNT(*) AS movie_count\nFROM movies\n",
+        solved: false
+      },
+      {
+        prompt: "Find all movies with <strong>Toy</strong> anywhere in the <code>title</code>.",
+        hint: "Use the wildcard operator: <code>WHERE title LIKE '%Toy%'</code>.",
+        solution: "SELECT * FROM movies WHERE title LIKE '%Toy%';",
+        starter: "SELECT *\nFROM movies\nWHERE title LIKE ",
+        solved: false
+      }
+    ];
+
+    function renderTable(results, container) {
+      if (!results || results.length === 0) {
+        container.innerHTML = "<p style='padding:0.75rem 1rem;margin:0;color:var(--text-muted);font-size:0.9rem;'><em>Query executed (0 rows returned).</em></p>";
+        return;
+      }
+      const { columns, values } = results[0];
+      const ths = columns.map(c => `<th>${c}</th>`).join("");
+      const trs = values.map(row => `<tr>${row.map(v => `<td>${v}</td>`).join("")}</tr>`).join("");
+      container.innerHTML = `<table><thead><tr>${ths}</tr></thead><tbody>${trs}</tbody></table>`;
+    }
+
+    function renderTaskList() {
+      const listEl = document.getElementById("task-list");
+      listEl.innerHTML = TASKS.map((task, idx) => `
+        <li class="task-item ${idx === currentTaskIndex ? "active" : ""} ${task.solved ? "completed" : ""}" data-idx="${idx}">
+          <span class="task-num">${task.solved ? "✓" : idx + 1}</span>
+          <div>${task.prompt}</div>
+        </li>
+      `).join("");
+
+      listEl.querySelectorAll(".task-item").forEach(item => {
+        item.addEventListener("click", () => selectTask(Number(item.dataset.idx)));
+      });
+
+      const solvedCount = TASKS.filter(t => t.solved).length;
+      document.getElementById("progress-pill").textContent = `${solvedCount} / ${TASKS.length} Completed`;
+    }
+
+    function selectTask(index) {
+      currentTaskIndex = index;
+      const task = TASKS[index];
+      document.getElementById("active-task-title").textContent = `Task ${index + 1} of ${TASKS.length}`;
+      document.getElementById("sql-input").value = task.starter;
+      document.getElementById("hint-box").style.display = "none";
+      document.getElementById("hint-box").innerHTML = `<strong>Hint:</strong> ${task.hint}`;
+      const fb = document.getElementById("feedback-box");
+      fb.className = "feedback";
+      fb.textContent = "Write your SQL query above and click Run Query.";
+      renderTaskList();
+    }
+
+    function checkSolution(userResults) {
+      const task = TASKS[currentTaskIndex];
+      const expectedResults = db.exec(task.solution);
+      const fb = document.getElementById("feedback-box");
+
+      if (!userResults || userResults.length === 0) {
+        fb.className = "feedback fail";
+        fb.textContent = "Your query returned 0 rows.";
+        return;
+      }
+
+      const user = userResults[0];
+      const expected = expectedResults[0];
+      const colsMatch = JSON.stringify(user.columns) === JSON.stringify(expected.columns);
+      const rowsMatch = JSON.stringify(user.values) === JSON.stringify(expected.values);
+
+      if (colsMatch && rowsMatch) {
+        task.solved = true;
+        renderTaskList();
+        fb.className = "feedback pass";
+        if (currentTaskIndex < TASKS.length - 1) {
+          fb.innerHTML = `Correct! <a href="#" id="next-link" style="color:inherit;font-weight:600;margin-left:6px;">Continue to Task ${currentTaskIndex + 2} →</a>`;
+          document.getElementById("next-link").addEventListener("click", e => {
+            e.preventDefault();
+            selectTask(currentTaskIndex + 1);
+          });
+        } else {
+          fb.textContent = "All 5 tasks completed!";
+        }
+      } else {
+        fb.className = "feedback fail";
+        fb.textContent = "Not quite right — check your selected columns, filter condition, or sort order.";
+      }
+    }
+
+    function runUserQuery() {
+      const query = document.getElementById("sql-input").value;
+      const outputEl = document.getElementById("query-output");
+      const fb = document.getElementById("feedback-box");
+
+      try {
+        const results = db.exec(query);
+        renderTable(results, outputEl);
+        renderTable(db.exec("SELECT * FROM movies;"), document.getElementById("table-preview"));
+        checkSolution(results);
+      } catch (err) {
+        outputEl.innerHTML = `<p style="padding:0.75rem 1rem;margin:0;color:var(--error);font-size:0.9rem;"><strong>SQL Error:</strong> ${err.message}</p>`;
+        fb.className = "feedback fail";
+        fb.textContent = "Fix the SQL syntax error shown in the results panel.";
+      }
+    }
+
+    function initDatabase() {
+      if (db) db.close();
+      db = new SQL.Database();
+      db.run(SEED_SQL);
+      renderTable(db.exec("SELECT * FROM movies;"), document.getElementById("table-preview"));
+      selectTask(0);
+    }
+
+    initSqlJs({
+      locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/${file}`
+    }).then(loadedSql => {
+      SQL = loadedSql;
+      initDatabase();
+    });
+
+    document.getElementById("run-btn").addEventListener("click", runUserQuery);
+    document.getElementById("hint-btn").addEventListener("click", () => {
+      const hintBox = document.getElementById("hint-box");
+      hintBox.style.display = hintBox.style.display === "none" ? "block" : "none";
+    });
+    document.getElementById("reset-btn").addEventListener("click", () => {
+      TASKS.forEach(t => t.solved = false);
+      initDatabase();
+      document.getElementById("query-output").innerHTML =
+        "<p style='padding:0.75rem 1rem;margin:0;color:var(--text-muted);font-size:0.9rem;'>Database reset. Run a query to see results.</p>";
+    });
+    document.getElementById("sql-input").addEventListener("keydown", e => {
+      if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+        e.preventDefault();
+        runUserQuery();
+      }
+    });
+  </script>
+</body>
+</html>
