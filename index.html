@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="google-site-verification" content="CeUJd7jSUeLLPp9xynt8eWnmpsnOpdM5s4aRNh_Tehg" />
   <title>SQL Lab — Interactive Practice</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/sql-wasm.js"></script>
   <style>
@@ -72,6 +71,33 @@
       font-size: 0.9rem;
     }
 
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .eye-counter {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--surface-alt);
+      color: var(--text);
+      border: 1px solid var(--border-strong);
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .eye-counter svg {
+      width: 16px;
+      height: 16px;
+      color: var(--primary);
+      flex-shrink: 0;
+    }
+
     .progress-badge {
       background: var(--primary-tint);
       color: var(--primary);
@@ -82,7 +108,35 @@
       font-size: 0.875rem;
     }
 
-    /* Full-Width Split Workspace */
+    /* Mode Tabs Bar */
+    .tabs-bar {
+      width: 100%;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      border-radius: 0;
+      padding: 0.75rem 1rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+
+    /* Full-Width Workspaces */
     .workspace {
       width: 100%;
       flex: 1;
@@ -93,12 +147,27 @@
       align-items: start;
     }
 
+    .study-workspace {
+      width: 100%;
+      flex: 1;
+      padding: 1.5rem 2rem 2.5rem;
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    .hidden { display: none !important; }
+
     @media (max-width: 960px) {
-      .workspace {
+      .workspace, .study-workspace {
         grid-template-columns: 1fr;
         padding: 1.25rem;
       }
-      header { padding: 1rem 1.25rem; }
+      header, .tabs-bar {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+      }
     }
 
     .column {
@@ -131,6 +200,12 @@
       color: var(--text);
     }
 
+    h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.15rem;
+      color: var(--primary);
+    }
+
     code {
       font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
       font-size: 0.88em;
@@ -138,6 +213,63 @@
       padding: 0.12rem 0.4rem;
       border-radius: 4px;
       color: var(--primary);
+    }
+
+    pre {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.85rem 1rem;
+      border-radius: 6px;
+      overflow-x: auto;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      margin: 0.75rem 0 1rem;
+    }
+
+    /* Topic Sidebar in Study Tab */
+    .topic-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .topic-btn {
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      padding: 0.6rem 0.8rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .topic-btn:hover { background: var(--surface-alt); }
+    .topic-btn.active {
+      background: var(--primary-tint);
+      border-color: #bfdbfe;
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .done-tag {
+      font-size: 0.75rem;
+      background: var(--success-bg);
+      color: var(--success);
+      border: 1px solid var(--success-border);
+      padding: 0.1rem 0.45rem;
+      border-radius: 4px;
+      font-weight: 600;
     }
 
     /* Minimalist Data Table */
@@ -258,7 +390,7 @@
       align-items: center;
     }
 
-    button {
+    button.action-btn {
       padding: 0.55rem 1.1rem;
       border-radius: 6px;
       font-size: 0.88rem;
@@ -268,12 +400,12 @@
       transition: background 0.15s ease, border-color 0.15s ease;
     }
 
-    #run-btn {
+    #run-btn, #practice-topic-btn {
       background: var(--primary);
       color: #ffffff;
     }
 
-    #run-btn:hover { background: var(--primary-hover); }
+    #run-btn:hover, #practice-topic-btn:hover { background: var(--primary-hover); }
 
     #hint-btn, #reset-btn {
       background: var(--surface);
@@ -330,10 +462,38 @@
       <h1>SQL Interactive Lab</h1>
       <p class="subtitle">Relational Queries &amp; Filtering Practice</p>
     </div>
-    <div class="progress-badge" id="progress-pill">0 / 5 Completed</div>
+    <div class="header-right">
+      <div class="eye-counter" title="Total visits to this site">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+        </svg>
+        <span id="visitor-count">...</span>
+        <span>visits</span>
+      </div>
+      <div class="progress-badge" id="progress-pill">0 / 5 Completed</div>
+    </div>
   </header>
 
-  <main class="workspace">
+  <nav class="tabs-bar" aria-label="Section Mode">
+    <button class="tab-btn active" id="tab-study" type="button">Study Material</button>
+    <button class="tab-btn" id="tab-practice" type="button">Hands-On Practice</button>
+  </nav>
+
+  <!-- Study Material Tab -->
+  <main class="study-workspace" id="study-view">
+    <aside class="panel">
+      <div class="panel-header">
+        <h2>Study Topics</h2>
+      </div>
+      <ul class="topic-list" id="topic-list"></ul>
+    </aside>
+
+    <section class="panel" id="study-content"></section>
+  </main>
+
+  <!-- Hands-On Practice Tab -->
+  <main class="workspace hidden" id="practice-view">
     <!-- Left Column: Reference Table & Tasks -->
     <div class="column">
       <section class="panel">
@@ -361,9 +521,9 @@
         </div>
         <textarea id="sql-input" spellcheck="false">SELECT * FROM movies;</textarea>
         <div class="controls">
-          <button id="run-btn">Run Query</button>
-          <button id="hint-btn">Show Hint</button>
-          <button id="reset-btn">Reset Database</button>
+          <button class="action-btn" id="run-btn" type="button">Run Query</button>
+          <button class="action-btn" id="hint-btn" type="button">Show Hint</button>
+          <button class="action-btn" id="reset-btn" type="button">Reset Database</button>
           <span class="shortcut-note">Shortcut: Ctrl + Enter</span>
         </div>
         <div class="hint-box" id="hint-box"></div>
@@ -384,7 +544,7 @@
   <script>
     let SQL = null;
     let db = null;
-    let currentTaskIndex = 0;
+    let currentIndex = 0;
 
     const SEED_SQL = `
       CREATE TABLE movies (
@@ -405,8 +565,16 @@
         (8, 'Up', 'Pete Docter', 2009, 96);
     `;
 
-    const TASKS = [
+    const LESSONS = [
       {
+        topicTitle: "1. SELECT & WHERE",
+        conceptTitle: "Filtering Rows with WHERE",
+        summary: "Use <code>SELECT</code> to choose columns and <code>WHERE</code> to filter rows using operators such as <code>&lt;</code>, <code>&gt;</code>, or <code>=</code>.",
+        exampleSql: "SELECT title, year\nFROM movies\nWHERE year < 2000;",
+        keyPoints: [
+          "Separate column names with commas after <code>SELECT</code>.",
+          "Wrap text literals in single quotes, such as <code>'John Lasseter'</code>."
+        ],
         prompt: "Find the <code>title</code> and <code>year</code> of all movies released before the year <strong>2000</strong>.",
         hint: "Use <code>SELECT title, year FROM movies WHERE year &lt; 2000;</code>",
         solution: "SELECT title, year FROM movies WHERE year < 2000;",
@@ -414,6 +582,14 @@
         solved: false
       },
       {
+        topicTitle: "2. ORDER BY",
+        conceptTitle: "Sorting Results with ORDER BY",
+        summary: "Add <code>ORDER BY</code> to sort returned rows in ascending (<code>ASC</code>) or descending (<code>DESC</code>) order.",
+        exampleSql: "SELECT title, year\nFROM movies\nWHERE director = 'John Lasseter'\nORDER BY year ASC;",
+        keyPoints: [
+          "<code>ORDER BY</code> typically appears after <code>WHERE</code>.",
+          "Use <code>ASC</code> for smallest-to-largest and <code>DESC</code> for largest-to-smallest."
+        ],
         prompt: "List all movies directed by <strong>John Lasseter</strong>, sorted by <code>year</code> ascending.",
         hint: "Filter with <code>WHERE director = 'John Lasseter'</code> and add <code>ORDER BY year ASC</code>.",
         solution: "SELECT * FROM movies WHERE director = 'John Lasseter' ORDER BY year ASC;",
@@ -421,6 +597,14 @@
         solved: false
       },
       {
+        topicTitle: "3. ORDER BY + LIMIT",
+        conceptTitle: "Limiting Row Count with LIMIT",
+        summary: "Combine <code>ORDER BY</code> with <code>LIMIT n</code> to return only the top <code>n</code> rows.",
+        exampleSql: "SELECT title, length_minutes\nFROM movies\nORDER BY length_minutes DESC\nLIMIT 3;",
+        keyPoints: [
+          "Sort first so <code>LIMIT</code> keeps the highest or lowest records you want.",
+          "<code>LIMIT 3</code> returns at most three rows."
+        ],
         prompt: "Find the <code>title</code> and <code>length_minutes</code> of the <strong>top 3 longest</strong> movies.",
         hint: "Sort descending with <code>ORDER BY length_minutes DESC</code> and restrict rows with <code>LIMIT 3</code>.",
         solution: "SELECT title, length_minutes FROM movies ORDER BY length_minutes DESC LIMIT 3;",
@@ -428,6 +612,14 @@
         solved: false
       },
       {
+        topicTitle: "4. GROUP BY & COUNT",
+        conceptTitle: "Grouping & Counting with GROUP BY",
+        summary: "Use <code>COUNT(*)</code> with <code>GROUP BY</code> to count rows per group, and <code>AS</code> to name the resulting column.",
+        exampleSql: "SELECT director, COUNT(*) AS movie_count\nFROM movies\nGROUP BY director;",
+        keyPoints: [
+          "<code>COUNT(*)</code> counts all rows in each group.",
+          "<code>AS movie_count</code> sets the output column header."
+        ],
         prompt: "Count how many movies each <code>director</code> has made (return <code>director</code> and <code>movie_count</code>).",
         hint: "Use <code>SELECT director, COUNT(*) AS movie_count FROM movies GROUP BY director;</code>",
         solution: "SELECT director, COUNT(*) AS movie_count FROM movies GROUP BY director;",
@@ -435,6 +627,14 @@
         solved: false
       },
       {
+        topicTitle: "5. LIKE Wildcards",
+        conceptTitle: "Pattern Matching with LIKE",
+        summary: "Use <code>LIKE</code> with <code>%</code> wildcards to match text patterns inside a column.",
+        exampleSql: "SELECT *\nFROM movies\nWHERE title LIKE '%Toy%';",
+        keyPoints: [
+          "<code>%</code> represents zero or more characters.",
+          "<code>'%Toy%'</code> matches any title containing <code>Toy</code>."
+        ],
         prompt: "Find all movies with <strong>Toy</strong> anywhere in the <code>title</code>.",
         hint: "Use the wildcard operator: <code>WHERE title LIKE '%Toy%'</code>.",
         solution: "SELECT * FROM movies WHERE title LIKE '%Toy%';",
@@ -442,6 +642,72 @@
         solved: false
       }
     ];
+
+    async function initVisitorCounter() {
+      const countEl = document.getElementById("visitor-count");
+      const ns = encodeURIComponent(window.location.hostname || "sql-interactive-lab");
+      const key = encodeURIComponent(window.location.pathname || "home");
+      const localKey = `sql_lab_visits_${ns}_${key}`;
+
+      try {
+        const res = await fetch(`https://api.counterapi.dev/v1/${ns}/${key}/up`);
+        if (!res.ok) throw new Error("Counter unavailable");
+        const data = await res.json();
+        if (typeof data.count === "number") {
+          countEl.textContent = data.count.toLocaleString();
+          return;
+        }
+        throw new Error("Invalid count");
+      } catch (_) {
+        const nextVal = Number(localStorage.getItem(localKey) || "0") + 1;
+        localStorage.setItem(localKey, String(nextVal));
+        countEl.textContent = `${nextVal.toLocaleString()} (local)`;
+      }
+    }
+
+    function switchTab(mode) {
+      const isStudy = mode === "study";
+      document.getElementById("study-view").classList.toggle("hidden", !isStudy);
+      document.getElementById("practice-view").classList.toggle("hidden", isStudy);
+      document.getElementById("tab-study").classList.toggle("active", isStudy);
+      document.getElementById("tab-practice").classList.toggle("active", !isStudy);
+    }
+
+    function renderStudy() {
+      const topicListEl = document.getElementById("topic-list");
+      topicListEl.innerHTML = LESSONS.map((lesson, idx) => `
+        <li>
+          <button class="topic-btn ${idx === currentIndex ? "active" : ""}" data-idx="${idx}" type="button">
+            <span>${lesson.topicTitle}</span>
+            ${lesson.solved ? '<span class="done-tag">Done</span>' : ""}
+          </button>
+        </li>
+      `).join("");
+
+      topicListEl.querySelectorAll(".topic-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          currentIndex = Number(btn.dataset.idx);
+          renderStudy();
+          syncPracticeSelection(false);
+        });
+      });
+
+      const current = LESSONS[currentIndex];
+      const pointsHtml = current.keyPoints.map(pt => `<li>${pt}</li>`).join("");
+      document.getElementById("study-content").innerHTML = `
+        <h3>${current.conceptTitle}</h3>
+        <p style="margin:0;color:var(--text-muted);">${current.summary}</p>
+        <pre><code>${current.exampleSql}</code></pre>
+        <p style="margin:0 0 0.35rem;font-weight:600;">Key Points:</p>
+        <ul style="margin:0 0 1.2rem;padding-left:1.25rem;color:var(--text-muted);">${pointsHtml}</ul>
+        <button class="action-btn" id="practice-topic-btn" type="button">Practice This Topic →</button>
+      `;
+
+      document.getElementById("practice-topic-btn").addEventListener("click", () => {
+        syncPracticeSelection(true);
+        switchTab("practice");
+      });
+    }
 
     function renderTable(results, container) {
       if (!results || results.length === 0) {
@@ -456,26 +722,31 @@
 
     function renderTaskList() {
       const listEl = document.getElementById("task-list");
-      listEl.innerHTML = TASKS.map((task, idx) => `
-        <li class="task-item ${idx === currentTaskIndex ? "active" : ""} ${task.solved ? "completed" : ""}" data-idx="${idx}">
+      listEl.innerHTML = LESSONS.map((task, idx) => `
+        <li class="task-item ${idx === currentIndex ? "active" : ""} ${task.solved ? "completed" : ""}" data-idx="${idx}">
           <span class="task-num">${task.solved ? "✓" : idx + 1}</span>
           <div>${task.prompt}</div>
         </li>
       `).join("");
 
       listEl.querySelectorAll(".task-item").forEach(item => {
-        item.addEventListener("click", () => selectTask(Number(item.dataset.idx)));
+        item.addEventListener("click", () => {
+          currentIndex = Number(item.dataset.idx);
+          syncPracticeSelection(true);
+          renderStudy();
+        });
       });
 
-      const solvedCount = TASKS.filter(t => t.solved).length;
-      document.getElementById("progress-pill").textContent = `${solvedCount} / ${TASKS.length} Completed`;
+      const solvedCount = LESSONS.filter(t => t.solved).length;
+      document.getElementById("progress-pill").textContent = `${solvedCount} / ${LESSONS.length} Completed`;
     }
 
-    function selectTask(index) {
-      currentTaskIndex = index;
-      const task = TASKS[index];
-      document.getElementById("active-task-title").textContent = `Task ${index + 1} of ${TASKS.length}`;
-      document.getElementById("sql-input").value = task.starter;
+    function syncPracticeSelection(resetEditor) {
+      const task = LESSONS[currentIndex];
+      document.getElementById("active-task-title").textContent = `Task ${currentIndex + 1} of ${LESSONS.length}`;
+      if (resetEditor) {
+        document.getElementById("sql-input").value = task.starter;
+      }
       document.getElementById("hint-box").style.display = "none";
       document.getElementById("hint-box").innerHTML = `<strong>Hint:</strong> ${task.hint}`;
       const fb = document.getElementById("feedback-box");
@@ -485,7 +756,7 @@
     }
 
     function checkSolution(userResults) {
-      const task = TASKS[currentTaskIndex];
+      const task = LESSONS[currentIndex];
       const expectedResults = db.exec(task.solution);
       const fb = document.getElementById("feedback-box");
 
@@ -503,12 +774,15 @@
       if (colsMatch && rowsMatch) {
         task.solved = true;
         renderTaskList();
+        renderStudy();
         fb.className = "feedback pass";
-        if (currentTaskIndex < TASKS.length - 1) {
-          fb.innerHTML = `Correct! <a href="#" id="next-link" style="color:inherit;font-weight:600;margin-left:6px;">Continue to Task ${currentTaskIndex + 2} →</a>`;
+        if (currentIndex < LESSONS.length - 1) {
+          fb.innerHTML = `Correct! <a href="#" id="next-link" style="color:inherit;font-weight:600;margin-left:6px;">Continue to Task ${currentIndex + 2} →</a>`;
           document.getElementById("next-link").addEventListener("click", e => {
             e.preventDefault();
-            selectTask(currentTaskIndex + 1);
+            currentIndex += 1;
+            syncPracticeSelection(true);
+            renderStudy();
           });
         } else {
           fb.textContent = "All 5 tasks completed!";
@@ -541,8 +815,11 @@
       db = new SQL.Database();
       db.run(SEED_SQL);
       renderTable(db.exec("SELECT * FROM movies;"), document.getElementById("table-preview"));
-      selectTask(0);
+      syncPracticeSelection(true);
+      renderStudy();
     }
+
+    initVisitorCounter();
 
     initSqlJs({
       locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/${file}`
@@ -551,13 +828,15 @@
       initDatabase();
     });
 
+    document.getElementById("tab-study").addEventListener("click", () => switchTab("study"));
+    document.getElementById("tab-practice").addEventListener("click", () => switchTab("practice"));
     document.getElementById("run-btn").addEventListener("click", runUserQuery);
     document.getElementById("hint-btn").addEventListener("click", () => {
       const hintBox = document.getElementById("hint-box");
       hintBox.style.display = hintBox.style.display === "none" ? "block" : "none";
     });
     document.getElementById("reset-btn").addEventListener("click", () => {
-      TASKS.forEach(t => t.solved = false);
+      LESSONS.forEach(t => t.solved = false);
       initDatabase();
       document.getElementById("query-output").innerHTML =
         "<p style='padding:0.75rem 1rem;margin:0;color:var(--text-muted);font-size:0.9rem;'>Database reset. Run a query to see results.</p>";
