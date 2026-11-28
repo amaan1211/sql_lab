@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SQL Lab — Interactive Practice</title>
+  <title>SQL Lab — Complete Data Engineering Roadmap & Practice</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/sql-wasm.js"></script>
   <style>
     :root {
@@ -14,10 +14,10 @@
       --border-strong: #cbd5e1;
       --text: #0f172a;
       --text-muted: #475569;
-      --primary: #1e3a8a;       /* Classic Deep Navy */
+      --primary: #1e3a8a;
       --primary-hover: #172554;
       --primary-tint: #eff6ff;
-      --success: #047857;       /* Classic Emerald */
+      --success: #047857;
       --success-bg: #ecfdf5;
       --success-border: #a7f3d0;
       --error: #b91c1c;
@@ -32,7 +32,7 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
       background: var(--bg);
       color: var(--text);
-      line-height: 1.5;
+      line-height: 1.55;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -43,7 +43,7 @@
       width: 100%;
       background: var(--surface);
       border-bottom: 1px solid var(--border);
-      padding: 1rem 2rem;
+      padding: 0.9rem 2rem;
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
@@ -55,11 +55,12 @@
       display: flex;
       align-items: baseline;
       gap: 0.75rem;
+      flex-wrap: wrap;
     }
 
     h1 {
       margin: 0;
-      font-size: 1.3rem;
+      font-size: 1.25rem;
       font-weight: 700;
       color: var(--primary);
       letter-spacing: -0.02em;
@@ -68,7 +69,7 @@
     .subtitle {
       margin: 0;
       color: var(--text-muted);
-      font-size: 0.9rem;
+      font-size: 0.88rem;
     }
 
     .header-right {
@@ -105,7 +106,7 @@
       padding: 0.35rem 0.9rem;
       border-radius: 6px;
       font-weight: 600;
-      font-size: 0.875rem;
+      font-size: 0.85rem;
     }
 
     /* Mode Tabs Bar */
@@ -116,6 +117,7 @@
       padding: 0 2rem;
       display: flex;
       gap: 0.5rem;
+      flex-wrap: wrap;
     }
 
     .tab-btn {
@@ -123,8 +125,8 @@
       border: none;
       border-bottom: 2px solid transparent;
       border-radius: 0;
-      padding: 0.75rem 1rem;
-      font-size: 0.9rem;
+      padding: 0.75rem 1.1rem;
+      font-size: 0.92rem;
       font-weight: 600;
       color: var(--text-muted);
       cursor: pointer;
@@ -142,7 +144,7 @@
       flex: 1;
       padding: 1.5rem 2rem 2.5rem;
       display: grid;
-      grid-template-columns: minmax(340px, 1fr) minmax(420px, 1.35fr);
+      grid-template-columns: minmax(340px, 1fr) minmax(440px, 1.35fr);
       gap: 1.5rem;
       align-items: start;
     }
@@ -152,16 +154,28 @@
       flex: 1;
       padding: 1.5rem 2rem 2.5rem;
       display: grid;
-      grid-template-columns: 280px minmax(0, 1fr);
+      grid-template-columns: 320px minmax(0, 1fr);
       gap: 1.5rem;
       align-items: start;
     }
 
+    .interview-workspace {
+      width: 100%;
+      flex: 1;
+      padding: 1.5rem 2rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
     .hidden { display: none !important; }
 
-    @media (max-width: 960px) {
+    @media (max-width: 980px) {
       .workspace, .study-workspace {
         grid-template-columns: 1fr;
+        padding: 1.25rem;
+      }
+      .interview-workspace {
         padding: 1.25rem;
       }
       header, .tabs-bar {
@@ -191,6 +205,8 @@
       margin-bottom: 0.9rem;
       padding-bottom: 0.65rem;
       border-bottom: 1px solid var(--border);
+      gap: 0.75rem;
+      flex-wrap: wrap;
     }
 
     h2 {
@@ -202,13 +218,19 @@
 
     h3 {
       margin: 0 0 0.5rem;
-      font-size: 1.15rem;
+      font-size: 1.2rem;
       color: var(--primary);
+    }
+
+    h4 {
+      margin: 1.15rem 0 0.45rem;
+      font-size: 0.98rem;
+      color: var(--text);
     }
 
     code {
       font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size: 0.88em;
+      font-size: 0.87em;
       background: var(--surface-alt);
       padding: 0.12rem 0.4rem;
       border-radius: 4px;
@@ -219,23 +241,26 @@
       background: #f8fafc;
       border: 1px solid var(--border);
       color: var(--text);
-      padding: 0.85rem 1rem;
+      padding: 0.75rem 0.95rem;
       border-radius: 6px;
       overflow-x: auto;
       font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size: 0.88rem;
-      line-height: 1.5;
-      margin: 0.75rem 0 1rem;
+      font-size: 0.85rem;
+      line-height: 1.48;
+      margin: 0.45rem 0 0.75rem;
     }
 
-    /* Topic Sidebar in Study Tab */
+    /* Topic Sidebar */
     .topic-list {
       list-style: none;
       margin: 0;
       padding: 0;
       display: flex;
       flex-direction: column;
-      gap: 0.45rem;
+      gap: 0.35rem;
+      max-height: 75vh;
+      overflow-y: auto;
+      padding-right: 0.25rem;
     }
 
     .topic-btn {
@@ -244,14 +269,15 @@
       background: transparent;
       border: 1px solid transparent;
       border-radius: 6px;
-      padding: 0.6rem 0.8rem;
-      font-size: 0.9rem;
+      padding: 0.52rem 0.7rem;
+      font-size: 0.86rem;
       font-weight: 500;
       color: var(--text);
       cursor: pointer;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 0.5rem;
     }
 
     .topic-btn:hover { background: var(--surface-alt); }
@@ -263,111 +289,184 @@
     }
 
     .done-tag {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       background: var(--success-bg);
       color: var(--success);
       border: 1px solid var(--success-border);
-      padding: 0.1rem 0.45rem;
+      padding: 0.08rem 0.4rem;
       border-radius: 4px;
       font-weight: 600;
+      flex-shrink: 0;
     }
 
-    /* Minimalist Data Table */
+    /* Diagrams & Subtopic Cards */
+    .diagram-box {
+      background: #fcfcfd;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.85rem 1rem;
+      margin: 0.75rem 0 1rem;
+      overflow-x: auto;
+    }
+
+    .diagram-caption {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .subtopic-card {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: #fcfcfd;
+      margin-bottom: 0.75rem;
+      overflow: hidden;
+    }
+
+    .subtopic-header {
+      padding: 0.65rem 0.9rem;
+      background: var(--surface-alt);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .subtopic-title {
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 0.92rem;
+    }
+
+    .subtopic-body {
+      padding: 0.75rem 0.9rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .analogy-pill {
+      display: inline-block;
+      font-size: 0.73rem;
+      font-weight: 700;
+      color: var(--primary);
+      background: var(--primary-tint);
+      border: 1px solid #bfdbfe;
+      padding: 0.1rem 0.45rem;
+      border-radius: 4px;
+      margin-bottom: 0.35rem;
+    }
+
+    .scenario-card {
+      margin-top: 1rem;
+      padding: 0.95rem 1.05rem;
+      border-radius: 6px;
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+    }
+
+    .scenario-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      color: #92400e;
+      margin-bottom: 0.3rem;
+    }
+
+    details.solution-toggle {
+      margin-top: 0.6rem;
+      background: #ffffff;
+      border: 1px solid #fcd34d;
+      border-radius: 5px;
+      padding: 0.55rem 0.75rem;
+    }
+
+    details.solution-toggle summary {
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.86rem;
+      color: var(--success);
+    }
+
+    /* Select, Input & Schema Bar */
+    select, input[type="text"] {
+      padding: 0.45rem 0.65rem;
+      border-radius: 6px;
+      border: 1px solid var(--border-strong);
+      background: var(--surface);
+      color: var(--text);
+      font-size: 0.88rem;
+      font-weight: 500;
+      max-width: 100%;
+    }
+
+    .schema-tabs {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.75rem;
+    }
+
+    .schema-pill {
+      padding: 0.3rem 0.65rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border-radius: 5px;
+      border: 1px solid var(--border);
+      background: var(--surface-alt);
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .schema-pill.active {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
+
+    /* Data Table */
     .table-wrap {
       width: 100%;
       overflow-x: auto;
       border: 1px solid var(--border);
       border-radius: 6px;
+      max-height: 260px;
+      overflow-y: auto;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.88rem;
+      font-size: 0.86rem;
     }
 
     th, td {
-      padding: 0.55rem 0.85rem;
+      padding: 0.5rem 0.75rem;
       text-align: left;
       border-bottom: 1px solid var(--border);
+      white-space: nowrap;
     }
 
     th {
       background: var(--surface-alt);
       font-weight: 600;
       color: var(--text);
+      position: sticky;
+      top: 0;
     }
 
     tr:last-child td { border-bottom: none; }
     tbody tr:hover { background: #f8fafc; }
 
-    /* Task List */
-    .task-list {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-    }
-
-    .task-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.75rem;
-      padding: 0.75rem 0.9rem;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      cursor: pointer;
-      transition: border-color 0.15s ease, background 0.15s ease;
-      font-size: 0.92rem;
-    }
-
-    .task-item:hover {
-      border-color: var(--border-strong);
-      background: var(--bg);
-    }
-
-    .task-item.active {
-      border-color: var(--primary);
-      background: var(--primary-tint);
-    }
-
-    .task-item.completed {
-      border-color: var(--success-border);
-      background: var(--success-bg);
-    }
-
-    .task-num {
-      flex-shrink: 0;
-      width: 24px;
-      height: 24px;
-      border-radius: 4px;
-      background: var(--surface-alt);
-      color: var(--text-muted);
-      font-weight: 700;
-      font-size: 0.8rem;
-      display: grid;
-      place-items: center;
-    }
-
-    .task-item.active .task-num {
-      background: var(--primary);
-      color: #ffffff;
-    }
-
-    .task-item.completed .task-num {
-      background: var(--success);
-      color: #ffffff;
-    }
-
     /* SQL Editor */
     textarea {
       width: 100%;
-      height: 140px;
+      height: 155px;
       padding: 0.85rem 1rem;
       font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size: 0.94rem;
+      font-size: 0.92rem;
       line-height: 1.5;
       color: var(--text);
       background: #fcfcfd;
@@ -391,13 +490,12 @@
     }
 
     button.action-btn {
-      padding: 0.55rem 1.1rem;
+      padding: 0.52rem 1.05rem;
       border-radius: 6px;
       font-size: 0.88rem;
       font-weight: 600;
       cursor: pointer;
       border: 1px solid transparent;
-      transition: background 0.15s ease, border-color 0.15s ease;
     }
 
     #run-btn, #practice-topic-btn {
@@ -407,13 +505,15 @@
 
     #run-btn:hover, #practice-topic-btn:hover { background: var(--primary-hover); }
 
-    #hint-btn, #reset-btn {
+    #hint-btn, #clear-editor-btn, #reset-btn, #prev-topic-btn, #next-topic-btn {
       background: var(--surface);
       color: var(--text);
       border-color: var(--border-strong);
     }
 
-    #hint-btn:hover, #reset-btn:hover { background: var(--surface-alt); }
+    #hint-btn:hover, #clear-editor-btn:hover, #reset-btn:hover, #prev-topic-btn:hover, #next-topic-btn:hover {
+      background: var(--surface-alt);
+    }
 
     .shortcut-note {
       margin-left: auto;
@@ -454,13 +554,99 @@
       border-color: var(--error-border);
       color: var(--error);
     }
+
+    .task-prompt-box {
+      background: var(--primary-tint);
+      border: 1px solid #bfdbfe;
+      border-radius: 6px;
+      padding: 0.85rem 1rem;
+      margin-bottom: 0.9rem;
+      font-size: 0.93rem;
+    }
+
+    /* Interview Questions Tab */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .iq-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(430px, 1fr));
+      gap: 1.25rem;
+    }
+
+    @media (max-width: 640px) {
+      .iq-grid { grid-template-columns: 1fr; }
+    }
+
+    .iq-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.15rem 1.35rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .iq-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .role-badge {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      background: var(--primary-tint);
+      color: var(--primary);
+      border: 1px solid #bfdbfe;
+    }
+
+    .exp-badge {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      background: var(--surface-alt);
+      color: var(--text);
+      border: 1px solid var(--border-strong);
+    }
+
+    .scenario-badge {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      background: #fef3c7;
+      color: #92400e;
+      border: 1px solid #fde68a;
+    }
+
+    .iq-question {
+      margin: 0;
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .iq-answer {
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
   </style>
 </head>
 <body>
   <header>
     <div class="brand">
       <h1>SQL Interactive Lab</h1>
-      <p class="subtitle">Relational Queries &amp; Filtering Practice</p>
+      <p class="subtitle">Complete SQL Roadmap for Data Engineers &amp; DBAs (Beginner → Advanced)</p>
     </div>
     <div class="header-right">
       <div class="eye-counter" title="Total visits to this site">
@@ -471,20 +657,21 @@
         <span id="visitor-count">...</span>
         <span>visits</span>
       </div>
-      <div class="progress-badge" id="progress-pill">0 / 5 Completed</div>
+      <div class="progress-badge" id="progress-pill">0 / 28 Completed</div>
     </div>
   </header>
 
-  <nav class="tabs-bar" aria-label="Section Mode">
+  <nav class="tabs-bar" aria-label="Workspace Mode">
     <button class="tab-btn active" id="tab-study" type="button">Study Material</button>
     <button class="tab-btn" id="tab-practice" type="button">Hands-On Practice</button>
+    <button class="tab-btn" id="tab-interview" type="button">Interview Questions</button>
   </nav>
 
-  <!-- Study Material Tab -->
+  <!-- TAB 1: STUDY MATERIAL -->
   <main class="study-workspace" id="study-view">
     <aside class="panel">
       <div class="panel-header">
-        <h2>Study Topics</h2>
+        <h2>Roadmap Index (1–28)</h2>
       </div>
       <ul class="topic-list" id="topic-list"></ul>
     </aside>
@@ -492,42 +679,47 @@
     <section class="panel" id="study-content"></section>
   </main>
 
-  <!-- Hands-On Practice Tab -->
+  <!-- TAB 2: HANDS-ON PRACTICE -->
   <main class="workspace hidden" id="practice-view">
-    <!-- Left Column: Reference Table & Tasks -->
     <div class="column">
       <section class="panel">
         <div class="panel-header">
-          <h2>Table: <code>movies</code></h2>
-          <span style="font-size:0.8rem;color:var(--text-muted);">8 rows</span>
+          <h2>Select Topic Exercise (1–28)</h2>
         </div>
-        <div class="table-wrap" id="table-preview">Loading database...</div>
+        <select id="practice-topic-select" aria-label="Choose SQL Topic Exercise"></select>
+        <div class="controls" style="margin-top:0.75rem;">
+          <button class="action-btn" id="prev-topic-btn" type="button">← Previous Topic</button>
+          <button class="action-btn" id="next-topic-btn" type="button">Next Topic →</button>
+        </div>
       </section>
 
       <section class="panel">
         <div class="panel-header">
-          <h2>Exercises</h2>
-          <span style="font-size:0.8rem;color:var(--text-muted);">Click a task to solve</span>
+          <h2>Sample Database Tables</h2>
+          <span style="font-size:0.8rem;color:var(--text-muted);">SQLite In-Browser</span>
         </div>
-        <ul class="task-list" id="task-list"></ul>
+        <div class="schema-tabs" id="schema-tabs"></div>
+        <div class="table-wrap" id="table-preview">Loading database...</div>
       </section>
     </div>
 
-    <!-- Right Column: SQL Editor & Query Output -->
     <div class="column">
       <section class="panel">
         <div class="panel-header">
-          <h2 id="active-task-title">Task 1 of 5</h2>
+          <h2 id="active-task-title">Topic 1 Challenge</h2>
+          <button class="action-btn" id="practice-topic-btn" type="button" style="padding:0.35rem 0.75rem;font-size:0.8rem;">Open Study Notes</button>
         </div>
-        <textarea id="sql-input" spellcheck="false">SELECT * FROM movies;</textarea>
+        <div class="task-prompt-box" id="task-prompt-box"></div>
+        <textarea id="sql-input" spellcheck="false" placeholder="-- Write your SQL query here from scratch..."></textarea>
         <div class="controls">
           <button class="action-btn" id="run-btn" type="button">Run Query</button>
-          <button class="action-btn" id="hint-btn" type="button">Show Hint</button>
+          <button class="action-btn" id="hint-btn" type="button">Need a Hint?</button>
+          <button class="action-btn" id="clear-editor-btn" type="button">Clear Editor</button>
           <button class="action-btn" id="reset-btn" type="button">Reset Database</button>
-          <span class="shortcut-note">Shortcut: Ctrl + Enter</span>
+          <span class="shortcut-note">Ctrl + Enter</span>
         </div>
         <div class="hint-box" id="hint-box"></div>
-        <div class="feedback" id="feedback-box">Write your SQL query above and click Run Query.</div>
+        <div class="feedback" id="feedback-box">Read the problem statement above and write your SQL query in the blank editor.</div>
       </section>
 
       <section class="panel">
@@ -535,111 +727,1001 @@
           <h2>Query Results</h2>
         </div>
         <div class="table-wrap" id="query-output">
-          <p style="padding:0.75rem 1rem;margin:0;color:var(--text-muted);font-size:0.9rem;">Run a query to inspect the output rows.</p>
+          <p style="padding:0.75rem 1rem;margin:0;color:var(--text-muted);font-size:0.9rem;">Your query output will appear here.</p>
         </div>
       </section>
     </div>
+  </main>
+
+  <!-- TAB 3: INTERVIEW QUESTIONS -->
+  <main class="interview-workspace hidden" id="interview-view">
+    <section class="panel">
+      <div class="panel-header">
+        <h2>Data Engineer &amp; DBA SQL Interview Bank (2 to 10 Years Experience)</h2>
+        <span id="iq-count-label" style="font-size:0.85rem;color:var(--text-muted);font-weight:600;"></span>
+      </div>
+      <div class="filter-bar">
+        <label style="font-size:0.86rem;font-weight:600;">Role:
+          <select id="iq-role-filter">
+            <option value="ALL">All Roles (Data Engineer &amp; DBA)</option>
+            <option value="Data Engineer">Data Engineer</option>
+            <option value="DBA">Database Administrator (DBA)</option>
+          </select>
+        </label>
+        <label style="font-size:0.86rem;font-weight:600;">Experience:
+          <select id="iq-exp-filter">
+            <option value="ALL">All Levels (2–10 YOE)</option>
+            <option value="2-4 YOE">2–4 YOE (Mid-Level)</option>
+            <option value="5-7 YOE">5–7 YOE (Senior)</option>
+            <option value="8-10 YOE">8–10 YOE (Lead / Architect)</option>
+          </select>
+        </label>
+        <label style="font-size:0.86rem;font-weight:600;">Type:
+          <select id="iq-type-filter">
+            <option value="ALL">All Questions</option>
+            <option value="Scenario">Scenario-Based Only</option>
+            <option value="Core">Core / Architecture</option>
+          </select>
+        </label>
+        <input type="text" id="iq-search" placeholder="Search keyword (e.g., deadlock, SCD, partition)..." style="min-width:250px;" />
+      </div>
+    </section>
+
+    <div class="iq-grid" id="iq-grid"></div>
   </main>
 
   <script>
     let SQL = null;
     let db = null;
     let currentIndex = 0;
+    let activePreviewTable = "employees";
+
+    const SAMPLE_TABLES = ["employees", "departments", "sales", "events"];
 
     const SEED_SQL = `
-      CREATE TABLE movies (
-        id INTEGER PRIMARY KEY,
-        title TEXT,
-        director TEXT,
-        year INTEGER,
-        length_minutes INTEGER
+      CREATE TABLE departments (
+        dept_id INTEGER PRIMARY KEY,
+        dept_name TEXT,
+        location TEXT,
+        budget INTEGER
       );
-      INSERT INTO movies VALUES
-        (1, 'Toy Story', 'John Lasseter', 1995, 81),
-        (2, 'A Bug''s Life', 'John Lasseter', 1998, 95),
-        (3, 'Toy Story 2', 'John Lasseter', 1999, 93),
-        (4, 'Monsters, Inc.', 'Pete Docter', 2001, 92),
-        (5, 'Finding Nemo', 'Andrew Stanton', 2003, 100),
-        (6, 'The Incredibles', 'Brad Bird', 2004, 115),
-        (7, 'WALL-E', 'Andrew Stanton', 2008, 98),
-        (8, 'Up', 'Pete Docter', 2009, 96);
+
+      INSERT INTO departments VALUES
+        (10, 'Engineering', 'Bengaluru', 500000),
+        (20, 'Data', 'Hyderabad', 420000),
+        (30, 'Sales', 'Mumbai', 300000),
+        (40, 'HR', 'Delhi', 180000);
+
+      CREATE TABLE employees (
+        emp_id INTEGER PRIMARY KEY,
+        emp_name TEXT,
+        dept_id INTEGER,
+        manager_id INTEGER,
+        salary INTEGER,
+        bonus INTEGER,
+        hire_date TEXT,
+        status TEXT
+      );
+
+      INSERT INTO employees VALUES
+        (101, 'Aarav Sharma', 10, NULL, 120000, 15000, '2021-03-10', 'Active'),
+        (102, 'Priya Nair', 10, 101, 95000, 10000, '2022-07-01', 'Active'),
+        (103, 'Rohan Verma', 20, 101, 110000, NULL, '2021-11-15', 'Active'),
+        (104, 'Ananya Iyer', 20, 103, 95000, 8000, '2023-01-20', 'Active'),
+        (105, 'Vikram Das', 30, 101, 75000, NULL, '2022-04-12', 'Inactive'),
+        (106, 'Meera Joshi', 30, 105, 85000, 6000, '2023-06-05', 'Active'),
+        (107, 'Kabir Sen', NULL, 103, 65000, 5000, '2024-02-18', 'Active'),
+        (108, 'Neha Rao', 10, 102, 110000, 12000, '2020-09-25', 'Active');
+
+      CREATE TABLE sales (
+        sale_id INTEGER PRIMARY KEY,
+        emp_id INTEGER,
+        product TEXT,
+        category TEXT,
+        sale_date TEXT,
+        amount INTEGER,
+        region TEXT
+      );
+
+      INSERT INTO sales VALUES
+        (1, 105, 'Cloud ETL Tool', 'Software', '2025-01-05', 25000, 'West'),
+        (2, 106, 'Data Warehouse License', 'Software', '2025-01-12', 40000, 'West'),
+        (3, 106, 'Analytics Support', 'Services', '2025-02-02', 15000, 'South'),
+        (4, 102, 'Pipeline Consulting', 'Services', '2025-02-15', 30000, 'South'),
+        (5, 103, 'Cloud ETL Tool', 'Software', '2025-03-01', 25000, 'North'),
+        (6, 104, 'Data Warehouse License', 'Software', '2025-03-10', 45000, 'North'),
+        (7, 106, 'Cloud ETL Tool', 'Software', '2025-03-22', 25000, 'South'),
+        (8, 102, 'Analytics Support', 'Services', '2025-04-04', 20000, 'South');
+
+      CREATE TABLE events (
+        event_id INTEGER PRIMARY KEY,
+        user_id INTEGER,
+        stage TEXT,
+        event_date TEXT
+      );
+
+      INSERT INTO events VALUES
+        (1, 1, 'Signup', '2025-01-01'),
+        (2, 1, 'Trial', '2025-01-02'),
+        (3, 1, 'Paid', '2025-01-05'),
+        (4, 2, 'Signup', '2025-01-03'),
+        (5, 2, 'Trial', '2025-01-04'),
+        (6, 3, 'Signup', '2025-01-10'),
+        (7, 4, 'Signup', '2025-01-12'),
+        (8, 4, 'Trial', '2025-01-15'),
+        (9, 4, 'Paid', '2025-01-20');
     `;
 
-    const LESSONS = [
+    function registerHelperSqlFunctions(database) {
+      database.create_function("NVL", (a, b) => (a === null || a === undefined ? b : a));
+      database.create_function("IFNULL", (a, b) => (a === null || a === undefined ? b : a));
+      database.create_function("RIGHT", (str, n) => {
+        if (str === null || str === undefined) return null;
+        const s = String(str);
+        return s.slice(Math.max(0, s.length - Number(n)));
+      });
+      database.create_function("INSTR", (str, sub) => {
+        if (str === null || sub === null) return null;
+        return String(str).indexOf(String(sub)) + 1;
+      });
+      database.create_function("CONCAT_WS", (sep, ...args) => {
+        return args.filter(v => v !== null && v !== undefined).join(String(sep));
+      });
+      database.create_function("DATEDIFF", (d1, d2) => {
+        const t1 = new Date(d1).getTime();
+        const t2 = new Date(d2).getTime();
+        if (Number.isNaN(t1) || Number.isNaN(t2)) return null;
+        return Math.round((t1 - t2) / (1000 * 60 * 60 * 24));
+      });
+      database.create_function("DATE_ADD", (dateStr, days) => {
+        const dt = new Date(dateStr);
+        if (Number.isNaN(dt.getTime())) return null;
+        dt.setDate(dt.getDate() + Number(days));
+        return dt.toISOString().slice(0, 10);
+      });
+      database.create_function("DATE_SUB", (dateStr, days) => {
+        const dt = new Date(dateStr);
+        if (Number.isNaN(dt.getTime())) return null;
+        dt.setDate(dt.getDate() - Number(days));
+        return dt.toISOString().slice(0, 10);
+      });
+    }
+
+    const DIAGRAMS = {
+      keys: `
+        <svg width="640" height="145" viewBox="0 0 640 145" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="15" width="240" height="115" rx="8" fill="#eff6ff" stroke="#1e3a8a" stroke-width="1.5"/>
+          <text x="25" y="38" fill="#1e3a8a" font-size="13" font-weight="700">departments (Parent Table)</text>
+          <line x1="10" y1="48" x2="250" y2="48" stroke="#bfdbfe"/>
+          <text x="25" y="70" fill="#0f172a" font-size="12" font-weight="700">dept_id (PRIMARY KEY)</text>
+          <text x="25" y="92" fill="#475569" font-size="12">dept_name (Unique Name)</text>
+          <text x="25" y="114" fill="#475569" font-size="12">location, budget</text>
+
+          <rect x="370" y="15" width="255" height="115" rx="8" fill="#ecfdf5" stroke="#047857" stroke-width="1.5"/>
+          <text x="385" y="38" fill="#047857" font-size="13" font-weight="700">employees (Child Table)</text>
+          <line x1="370" y1="48" x2="625" y2="48" stroke="#a7f3d0"/>
+          <text x="385" y="70" fill="#0f172a" font-size="12" font-weight="700">emp_id (PRIMARY KEY)</text>
+          <text x="385" y="92" fill="#1e3a8a" font-size="12" font-weight="700">dept_id (FOREIGN KEY)</text>
+          <text x="385" y="114" fill="#475569" font-size="12">emp_name, salary, status</text>
+
+          <path d="M250 66 C 310 66, 310 88, 366 88" stroke="#1e3a8a" stroke-width="2" stroke-dasharray="4 3"/>
+          <polygon points="368,88 360,83 360,93" fill="#1e3a8a"/>
+          <text x="272" y="58" fill="#1e3a8a" font-size="11" font-weight="700">1 : Many</text>
+        </svg>`,
+      modeling: `
+        <svg width="640" height="150" viewBox="0 0 640 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="235" y="42" width="170" height="68" rx="8" fill="#1e3a8a"/>
+          <text x="268" y="70" fill="#ffffff" font-size="13" font-weight="700">FACT_SALES</text>
+          <text x="255" y="92" fill="#dbeafe" font-size="11">amount, sale_date, keys</text>
+
+          <rect x="15" y="15" width="155" height="44" rx="6" fill="#eff6ff" stroke="#1e3a8a"/>
+          <text x="42" y="41" fill="#1e3a8a" font-size="12" font-weight="700">DIM_EMPLOYEE</text>
+
+          <rect x="15" y="92" width="155" height="44" rx="6" fill="#eff6ff" stroke="#1e3a8a"/>
+          <text x="45" y="118" fill="#1e3a8a" font-size="12" font-weight="700">DIM_PRODUCT</text>
+
+          <rect x="470" y="15" width="155" height="44" rx="6" fill="#eff6ff" stroke="#1e3a8a"/>
+          <text x="505" y="41" fill="#1e3a8a" font-size="12" font-weight="700">DIM_REGION</text>
+
+          <rect x="470" y="92" width="155" height="44" rx="6" fill="#eff6ff" stroke="#1e3a8a"/>
+          <text x="512" y="118" fill="#1e3a8a" font-size="12" font-weight="700">DIM_DATE</text>
+
+          <line x1="170" y1="37" x2="235" y2="65" stroke="#64748b" stroke-width="1.5"/>
+          <line x1="170" y1="114" x2="235" y2="90" stroke="#64748b" stroke-width="1.5"/>
+          <line x1="405" y1="65" x2="470" y2="37" stroke="#64748b" stroke-width="1.5"/>
+          <line x1="405" y1="90" x2="470" y2="114" stroke="#64748b" stroke-width="1.5"/>
+        </svg>`,
+      joins: `
+        <svg width="650" height="135" viewBox="0 0 650 135" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g transform="translate(10,10)">
+            <circle cx="55" cy="52" r="38" fill="#bfdbfe" fill-opacity="0.45" stroke="#1e3a8a"/>
+            <circle cx="95" cy="52" r="38" fill="#a7f3d0" fill-opacity="0.45" stroke="#047857"/>
+            <path d="M75 20 A38 38 0 0 1 75 84 A38 38 0 0 1 75 20" fill="#1e3a8a" fill-opacity="0.7"/>
+            <text x="35" y="110" fill="#0f172a" font-size="11" font-weight="700">INNER JOIN</text>
+          </g>
+          <g transform="translate(170,10)">
+            <circle cx="55" cy="52" r="38" fill="#1e3a8a" fill-opacity="0.65" stroke="#1e3a8a"/>
+            <circle cx="95" cy="52" r="38" fill="#e2e8f0" fill-opacity="0.45" stroke="#047857"/>
+            <text x="40" y="110" fill="#0f172a" font-size="11" font-weight="700">LEFT JOIN</text>
+          </g>
+          <g transform="translate(330,10)">
+            <circle cx="55" cy="52" r="38" fill="#1e3a8a" fill-opacity="0.65" stroke="#1e3a8a"/>
+            <circle cx="95" cy="52" r="38" fill="#ffffff" stroke="#047857"/>
+            <text x="28" y="110" fill="#0f172a" font-size="11" font-weight="700">LEFT ANTI JOIN</text>
+          </g>
+          <g transform="translate(490,10)">
+            <circle cx="55" cy="52" r="38" fill="#1e3a8a" fill-opacity="0.55" stroke="#1e3a8a"/>
+            <circle cx="95" cy="52" r="38" fill="#047857" fill-opacity="0.55" stroke="#047857"/>
+            <text x="28" y="110" fill="#0f172a" font-size="11" font-weight="700">FULL OUTER JOIN</text>
+          </g>
+        </svg>`,
+      execution: `
+        <svg width="660" height="95" viewBox="0 0 660 95" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="6" y="25" width="82" height="42" rx="6" fill="#eff6ff" stroke="#1e3a8a"/>
+          <text x="17" y="50" fill="#1e3a8a" font-size="11" font-weight="700">1. FROM/JOIN</text>
+          <text x="93" y="50" fill="#64748b" font-size="14">→</text>
+
+          <rect x="110" y="25" width="75" height="42" rx="6" fill="#eff6ff" stroke="#1e3a8a"/>
+          <text x="120" y="50" fill="#1e3a8a" font-size="11" font-weight="700">2. WHERE</text>
+          <text x="190" y="50" fill="#64748b" font-size="14">→</text>
+
+          <rect x="207" y="25" width="88" height="42" rx="6" fill="#eff6ff" stroke="#1e3a8a"/>
+          <text x="215" y="50" fill="#1e3a8a" font-size="11" font-weight="700">3. GROUP BY</text>
+          <text x="300" y="50" fill="#64748b" font-size="14">→</text>
+
+          <rect x="317" y="25" width="80" height="42" rx="6" fill="#eff6ff" stroke="#1e3a8a"/>
+          <text x="326" y="50" fill="#1e3a8a" font-size="11" font-weight="700">4. HAVING</text>
+          <text x="402" y="50" fill="#64748b" font-size="14">→</text>
+
+          <rect x="419" y="25" width="80" height="42" rx="6" fill="#ecfdf5" stroke="#047857"/>
+          <text x="428" y="50" fill="#047857" font-size="11" font-weight="700">5. SELECT</text>
+          <text x="504" y="50" fill="#64748b" font-size="14">→</text>
+
+          <rect x="521" y="25" width="128" height="42" rx="6" fill="#ecfdf5" stroke="#047857"/>
+          <text x="530" y="50" fill="#047857" font-size="11" font-weight="700">6. ORDER BY / LIMIT</text>
+        </svg>`,
+      window: `
+        <svg width="640" height="130" viewBox="0 0 640 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="15" width="290" height="100" rx="8" fill="#eff6ff" stroke="#1e3a8a"/>
+          <text x="24" y="38" fill="#1e3a8a" font-size="12" font-weight="700">GROUP BY (Collapses Rows)</text>
+          <text x="24" y="62" fill="#475569" font-size="12">3 Engineering rows  ──▶  1 Summary row</text>
+          <text x="24" y="84" fill="#475569" font-size="12">2 Data rows         ──▶  1 Summary row</text>
+
+          <rect x="330" y="15" width="295" height="100" rx="8" fill="#ecfdf5" stroke="#047857"/>
+          <text x="344" y="38" fill="#047857" font-size="12" font-weight="700">OVER (PARTITION BY ...) (Keeps All Rows)</text>
+          <text x="344" y="62" fill="#0f172a" font-size="12">Aarav | Eng | 120k | Rank = 1</text>
+          <text x="344" y="82" fill="#0f172a" font-size="12">Neha  | Eng | 110k | Rank = 2</text>
+          <text x="344" y="102" fill="#0f172a" font-size="12">Priya | Eng |  95k | Rank = 3</text>
+        </svg>`,
+      index: `
+        <svg width="640" height="125" viewBox="0 0 640 125" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="15" width="285" height="95" rx="8" fill="#fef2f2" stroke="#b91c1c"/>
+          <text x="24" y="38" fill="#b91c1c" font-size="12" font-weight="700">Full Table Scan (No Index)</text>
+          <text x="24" y="62" fill="#475569" font-size="12">Reads Row 1 → Row 2 → Row 3 ... → Row 1M</text>
+          <text x="24" y="84" fill="#b91c1c" font-size="11">Slow when table has millions of rows</text>
+
+          <rect x="325" y="15" width="300" height="95" rx="8" fill="#ecfdf5" stroke="#047857"/>
+          <text x="339" y="38" fill="#047857" font-size="12" font-weight="700">B-Tree Index Seek (With Index)</text>
+          <text x="339" y="62" fill="#0f172a" font-size="12">Root Node ──▶ Branch ──▶ Exact Row Pointer</text>
+          <text x="339" y="84" fill="#047857" font-size="11">Jumps straight to matching records in milliseconds</text>
+        </svg>`,
+      acid: `
+        <svg width="640" height="105" viewBox="0 0 640 105" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="15" width="145" height="75" rx="8" fill="#eff6ff" stroke="#1e3a8a"/>
+          <text x="22" y="38" fill="#1e3a8a" font-size="12" font-weight="700">A - Atomicity</text>
+          <text x="22" y="60" fill="#475569" font-size="11">All steps succeed</text>
+          <text x="22" y="76" fill="#475569" font-size="11">or all roll back.</text>
+
+          <rect x="168" y="15" width="145" height="75" rx="8" fill="#eff6ff" stroke="#1e3a8a"/>
+          <text x="180" y="38" fill="#1e3a8a" font-size="12" font-weight="700">C - Consistency</text>
+          <text x="180" y="60" fill="#475569" font-size="11">Rules &amp; constraints</text>
+          <text x="180" y="76" fill="#475569" font-size="11">always stay valid.</text>
+
+          <rect x="326" y="15" width="145" height="75" rx="8" fill="#eff6ff" stroke="#1e3a8a"/>
+          <text x="338" y="38" fill="#1e3a8a" font-size="12" font-weight="700">I - Isolation</text>
+          <text x="338" y="60" fill="#475569" font-size="11">Parallel users don't</text>
+          <text x="338" y="76" fill="#475569" font-size="11">corrupt each other.</text>
+
+          <rect x="484" y="15" width="145" height="75" rx="8" fill="#ecfdf5" stroke="#047857"/>
+          <text x="496" y="38" fill="#047857" font-size="12" font-weight="700">D - Durability</text>
+          <text x="496" y="60" fill="#475569" font-size="11">Saved after COMMIT</text>
+          <text x="496" y="76" fill="#475569" font-size="11">even if power fails.</text>
+        </svg>`
+    };
+
+    const ROADMAP = [
       {
-        topicTitle: "1. SELECT & WHERE",
-        conceptTitle: "Filtering Rows with WHERE",
-        summary: "Use <code>SELECT</code> to choose columns and <code>WHERE</code> to filter rows using operators such as <code>&lt;</code>, <code>&gt;</code>, or <code>=</code>.",
-        exampleSql: "SELECT title, year\nFROM movies\nWHERE year < 2000;",
-        keyPoints: [
-          "Separate column names with commas after <code>SELECT</code>.",
-          "Wrap text literals in single quotes, such as <code>'John Lasseter'</code>."
+        id: 1,
+        title: "1. SQL & Database Fundamentals",
+        overview: "Think of a database like an organized digital filing cabinet. Instead of messy spreadsheets scattered across folders, a relational database stores data in clean, linked tables so thousands of people and apps can read and update information safely at the same time.",
+        diagram: DIAGRAMS.keys,
+        diagramCaption: "How Tables & Keys Connect",
+        subtopics: [
+          ["What is SQL?", "Think of SQL as the plain-English question language you use to talk to a database. Instead of scrolling through 10 million rows manually, you tell SQL what you want ('show me all Bengaluru engineers earning above 90k') and it fetches it in milliseconds."],
+          ["Why SQL is Important for Data Engineers", "Before any AI model or executive dashboard can work, raw messy data has to be cleaned, joined, deduplicated, and checked for errors. SQL is the #1 tool data engineers use to build those daily data pipelines."],
+          ["What is a Database & DBMS vs RDBMS?", "A Database is the storage box holding your data. A DBMS is the software manager (like a librarian) that lets you read/write safely. An RDBMS (like PostgreSQL, Oracle, or SQL Server) stores data in structured tables that link together via keys."],
+          ["Table, Schema, Database vs Schema", "A Table is one grid (like employees). A Schema is a folder/namespace inside a database that groups related tables together (like hr.employees vs sales.orders). A Database is the top-level container holding one or more schemas."],
+          ["Rows, Columns, Records, Attributes & Data Types", "A Row (also called a Record) is one complete person or order. A Column (also called an Attribute) is one property like salary. Data Types (INTEGER, TEXT, DATE) act like labels on boxes so nobody accidentally types 'hello' into a salary column."],
+          ["Primary, Foreign, Candidate, Composite, Natural, Surrogate & Unique Keys", "Primary Key = unique ID badge for every row (never empty, never repeated). Foreign Key = a reference ID pointing to another table's Primary Key. Candidate Key = any column eligible to be the ID badge. Composite Key = two columns combined as an ID (e.g., order_id + item_id). Natural Key = real-world ID like email/PAN. Surrogate Key = system-generated number (1, 2, 3...). Unique Key = prevents duplicates in a column."]
         ],
-        prompt: "Find the <code>title</code> and <code>year</code> of all movies released before the year <strong>2000</strong>.",
-        hint: "Use <code>SELECT title, year FROM movies WHERE year &lt; 2000;</code>",
-        solution: "SELECT title, year FROM movies WHERE year < 2000;",
-        starter: "SELECT title, year\nFROM movies\nWHERE ",
+        example: "-- Fetch Bengaluru engineering staff using keys\nSELECT emp_id, emp_name, salary\nFROM employees\nWHERE dept_id = 10;",
+        scenario: {
+          question: "Your HR team wants to store employees and departments. Two employees can share the same full name ('Priya Nair'), and a new hire might join before being assigned to a department. Which column should be the Primary Key, and can dept_id be NULL?",
+          answer: "Use <code>emp_id</code> (a Surrogate Primary Key) because names can repeat. Yes, <code>dept_id</code> is a Foreign Key and can allow <code>NULL</code> when an employee is temporarily unassigned (like Kabir Sen in our sample table)."
+        },
+        prompt: "A manager in the <strong>Data</strong> department (<code>dept_id = 20</code>) needs a contact roster. Display each team member's ID, full name, and department ID.",
+        hint: "Select <code>emp_id</code>, <code>emp_name</code>, and <code>dept_id</code> from <code>employees</code> where <code>dept_id</code> equals 20.",
+        solution: "SELECT emp_id, emp_name, dept_id FROM employees WHERE dept_id = 20;",
         solved: false
       },
       {
-        topicTitle: "2. ORDER BY",
-        conceptTitle: "Sorting Results with ORDER BY",
-        summary: "Add <code>ORDER BY</code> to sort returned rows in ascending (<code>ASC</code>) or descending (<code>DESC</code>) order.",
-        exampleSql: "SELECT title, year\nFROM movies\nWHERE director = 'John Lasseter'\nORDER BY year ASC;",
-        keyPoints: [
-          "<code>ORDER BY</code> typically appears after <code>WHERE</code>.",
-          "Use <code>ASC</code> for smallest-to-largest and <code>DESC</code> for largest-to-smallest."
+        id: 2,
+        title: "2. Database Concepts & Data Modeling",
+        overview: "Data modeling is like designing the floor plan of a house before laying bricks. Good design stops duplicate data from corrupting live apps (OLTP) and makes giant analytical reports run fast (OLAP).",
+        diagram: DIAGRAMS.modeling,
+        diagramCaption: "Star Schema: Central Fact Table Surrounded by Dimensions",
+        subtopics: [
+          ["Entities, Attributes & Relationships (1:1, 1:Many, Many:Many)", "An Entity is a real thing (Employee, Department). Attributes describe it. Relationships link them: 1:1 (one person, one passport), 1:Many (one department has many employees), Many:Many (many students take many courses—solved using a middle bridge table)."],
+          ["ER Model, ER Diagram & Referential Integrity", "An ER Diagram is the visual map of boxes and connecting lines. Referential Integrity is the database's safety lock: it stops you from assigning an employee to dept_id = 999 if department 999 does not exist."],
+          ["Normalization (1NF, 2NF, 3NF, BCNF) vs Denormalization", "Normalization splits big messy tables into clean small ones so you never update the same address in 5 places: 1NF (no comma-separated lists in one cell), 2NF (no partial dependence on part of a composite key), 3NF/BCNF (non-key columns depend only on the key). Denormalization deliberately merges tables back together in analytics so reports don't have to join 12 tables."],
+          ["Fact Tables, Dimension Tables, Star vs Snowflake Schema & OLTP vs OLAP", "Fact tables hold numbers/events (sales amount). Dimension tables hold who/what/where/when context. Star Schema connects Fact directly to flat Dimensions; Snowflake splits Dimensions into sub-tables. OLTP = fast daily app transactions; OLAP = fast analytical reporting."]
         ],
-        prompt: "List all movies directed by <strong>John Lasseter</strong>, sorted by <code>year</code> ascending.",
-        hint: "Filter with <code>WHERE director = 'John Lasseter'</code> and add <code>ORDER BY year ASC</code>.",
-        solution: "SELECT * FROM movies WHERE director = 'John Lasseter' ORDER BY year ASC;",
-        starter: "SELECT *\nFROM movies\nWHERE ",
+        example: "-- Star-style analytical join between sales facts and department context\nSELECT d.dept_name, s.product, s.amount\nFROM sales s\nJOIN employees e ON s.emp_id = e.emp_id\nJOIN departments d ON e.dept_id = d.dept_id;",
+        scenario: {
+          question: "In an e-commerce app, a customer changes their phone number. If phone numbers were copied into every row of a 50-million-row Orders table, updating it would be slow and risky. How do you fix this design?",
+          answer: "Normalize to <strong>3NF</strong>: keep <code>phone_number</code> in a single <code>customers</code> table (one row per customer) and store only <code>customer_id</code> in the <code>orders</code> table."
+        },
+        prompt: "Combine the <code>employees</code> and <code>departments</code> tables to show each employee's name alongside their department name, but only for staff working in department <code>10</code>.",
+        hint: "Join <code>employees</code> and <code>departments</code> on matching <code>dept_id</code> and filter for department 10.",
+        solution: "SELECT e.emp_name, d.dept_name FROM employees e JOIN departments d ON e.dept_id = d.dept_id WHERE e.dept_id = 10;",
         solved: false
       },
       {
-        topicTitle: "3. ORDER BY + LIMIT",
-        conceptTitle: "Limiting Row Count with LIMIT",
-        summary: "Combine <code>ORDER BY</code> with <code>LIMIT n</code> to return only the top <code>n</code> rows.",
-        exampleSql: "SELECT title, length_minutes\nFROM movies\nORDER BY length_minutes DESC\nLIMIT 3;",
-        keyPoints: [
-          "Sort first so <code>LIMIT</code> keeps the highest or lowest records you want.",
-          "<code>LIMIT 3</code> returns at most three rows."
+        id: 3,
+        title: "3. SQL Constraints",
+        overview: "Constraints are automatic bouncers standing at the door of your table. Whenever someone inserts or updates a row, constraints check the rules and block bad data before it enters.",
+        diagram: DIAGRAMS.keys,
+        diagramCaption: "Primary Key, Foreign Key & Rule Enforcement",
+        subtopics: [
+          ["NOT NULL, UNIQUE, PRIMARY KEY & FOREIGN KEY", "NOT NULL says 'this box cannot be left blank'. UNIQUE says 'no duplicate emails allowed'. PRIMARY KEY enforces both NOT NULL + UNIQUE. FOREIGN KEY ensures a child ID actually exists in the parent table."],
+          ["CHECK & DEFAULT", "CHECK enforces custom math/logic rules (e.g., CHECK (salary > 0) so nobody enters -5000). DEFAULT fills in a starter value automatically (e.g., status DEFAULT 'Active') if the user leaves it out."],
+          ["Column-Level vs Table-Level & Adding/Dropping Constraints", "Column-level constraints sit right beside one column. Table-level constraints sit at the bottom of CREATE TABLE (great when a rule spans two columns, like end_date >= start_date). Use ALTER TABLE to add or drop constraints later."]
         ],
-        prompt: "Find the <code>title</code> and <code>length_minutes</code> of the <strong>top 3 longest</strong> movies.",
-        hint: "Sort descending with <code>ORDER BY length_minutes DESC</code> and restrict rows with <code>LIMIT 3</code>.",
-        solution: "SELECT title, length_minutes FROM movies ORDER BY length_minutes DESC LIMIT 3;",
-        starter: "SELECT title, length_minutes\nFROM movies\nORDER BY ",
+        example: "CREATE TABLE audit_logs (\n  log_id INTEGER PRIMARY KEY,\n  action TEXT NOT NULL,\n  severity INTEGER DEFAULT 1 CHECK (severity BETWEEN 1 AND 5)\n);",
+        scenario: {
+          question: "A junior developer accidentally inserted a product with price = -250 into production. Which constraint prevents negative numbers automatically at the database layer?",
+          answer: "Add a <code>CHECK (price >= 0)</code> constraint on the <code>price</code> column so the database immediately rejects negative inserts or updates."
+        },
+        prompt: "Create a new table called <code>projects</code> with two columns: <code>proj_id</code> (integer primary key) and <code>proj_name</code> (text that cannot be null). Then verify it exists by querying <code>sqlite_master</code> for <code>name</code> where <code>type='table'</code> and <code>name='projects'</code>.",
+        hint: "Execute the <code>CREATE TABLE</code> statement first, followed by <code>SELECT name FROM sqlite_master WHERE type='table' AND name='projects';</code>.",
+        solution: "CREATE TABLE projects (proj_id INTEGER PRIMARY KEY, proj_name TEXT NOT NULL); SELECT name FROM sqlite_master WHERE type='table' AND name='projects';",
         solved: false
       },
       {
-        topicTitle: "4. GROUP BY & COUNT",
-        conceptTitle: "Grouping & Counting with GROUP BY",
-        summary: "Use <code>COUNT(*)</code> with <code>GROUP BY</code> to count rows per group, and <code>AS</code> to name the resulting column.",
-        exampleSql: "SELECT director, COUNT(*) AS movie_count\nFROM movies\nGROUP BY director;",
-        keyPoints: [
-          "<code>COUNT(*)</code> counts all rows in each group.",
-          "<code>AS movie_count</code> sets the output column header."
+        id: 4,
+        title: "4. SQL Commands & SQL Language Categories",
+        overview: "Every SQL keyword belongs to one of five families depending on whether it changes table structure, edits row data, reads data, controls security, or saves transactions.",
+        diagram: DIAGRAMS.acid,
+        diagramCaption: "Safe Data Changes & Transaction Control",
+        subtopics: [
+          ["DDL (Data Definition Language)", "Changes the container/structure: CREATE, ALTER, DROP, TRUNCATE. Think of building or remodeling rooms in a house."],
+          ["DML (Data Manipulation Language)", "Changes the items inside the rooms: INSERT, UPDATE, DELETE, MERGE."],
+          ["DQL (Data Query Language)", "Reads and inspects data without changing it: SELECT."],
+          ["DCL (Data Control Language)", "Controls who has keys to which rooms: GRANT and REVOKE permissions."],
+          ["TCL (Transaction Control Language)", "Controls saving or undoing work: BEGIN, COMMIT, ROLLBACK, SAVEPOINT."]
         ],
-        prompt: "Count how many movies each <code>director</code> has made (return <code>director</code> and <code>movie_count</code>).",
-        hint: "Use <code>SELECT director, COUNT(*) AS movie_count FROM movies GROUP BY director;</code>",
-        solution: "SELECT director, COUNT(*) AS movie_count FROM movies GROUP BY director;",
-        starter: "SELECT director, COUNT(*) AS movie_count\nFROM movies\n",
+        example: "-- DML change followed by DQL verification\nUPDATE departments SET location = 'Pune' WHERE dept_id = 40;\nSELECT * FROM departments WHERE dept_id = 40;",
+        scenario: {
+          question: "An analyst only needs to read dashboard tables and should never accidentally delete rows or drop tables. Which SQL command family do you use to restrict their permissions?",
+          answer: "<strong>DCL (Data Control Language)</strong>: use <code>GRANT SELECT ON schema_name.* TO analyst_role;</code> and avoid granting DML/DDL privileges."
+        },
+        prompt: "Employee <code>105</code> (Vikram Das) has rejoined the company. Update their <code>status</code> to <code>'Active'</code>, and then retrieve their <code>emp_id</code> and updated <code>status</code> to confirm the change.",
+        hint: "Run an <code>UPDATE</code> on <code>employees</code> for <code>emp_id = 105</code>, followed by a <code>SELECT emp_id, status</code> query for that employee.",
+        solution: "UPDATE employees SET status = 'Active' WHERE emp_id = 105; SELECT emp_id, status FROM employees WHERE emp_id = 105;",
         solved: false
       },
       {
-        topicTitle: "5. LIKE Wildcards",
-        conceptTitle: "Pattern Matching with LIKE",
-        summary: "Use <code>LIKE</code> with <code>%</code> wildcards to match text patterns inside a column.",
-        exampleSql: "SELECT *\nFROM movies\nWHERE title LIKE '%Toy%';",
-        keyPoints: [
-          "<code>%</code> represents zero or more characters.",
-          "<code>'%Toy%'</code> matches any title containing <code>Toy</code>."
+        id: 5,
+        title: "5. Database & Table Operations",
+        overview: "Learn how to create, reshape, clean out, and build virtual views over your tables as business needs evolve.",
+        diagram: DIAGRAMS.keys,
+        diagramCaption: "Tables, Views & Structural Operations",
+        subtopics: [
+          ["CREATE DATABASE, CREATE SCHEMA, CREATE TABLE & CTAS", "CREATE TABLE builds an empty table. CREATE TABLE AS SELECT (CTAS) builds a brand-new table pre-filled with the output of a query—super common in data engineering."],
+          ["ALTER TABLE (ADD, MODIFY, DROP, RENAME COLUMN / RENAME TABLE)", "Lets you evolve a live table without recreating it from scratch—for example adding a phone column or renaming an unclear column name."],
+          ["DROP TABLE vs TRUNCATE TABLE", "TRUNCATE empties all rows like wiping a whiteboard clean while keeping the board on the wall. DROP removes the entire whiteboard from the room."],
+          ["Temporary Tables, Views & Materialized Views", "A View is a saved query shortcut (runs fresh each time). A Materialized View saves the actual query results on disk so heavy dashboards load fast, and refreshes on a schedule. Temporary tables live only for your current session."]
         ],
-        prompt: "Find all movies with <strong>Toy</strong> anywhere in the <code>title</code>.",
-        hint: "Use the wildcard operator: <code>WHERE title LIKE '%Toy%'</code>.",
-        solution: "SELECT * FROM movies WHERE title LIKE '%Toy%';",
-        starter: "SELECT *\nFROM movies\nWHERE title LIKE ",
+        example: "CREATE VIEW software_sales AS\nSELECT sale_id, emp_id, amount\nFROM sales\nWHERE category = 'Software';",
+        scenario: {
+          question: "Ten different BI dashboards run the exact same complex 6-table join every 5 seconds, overloading your database CPU. Should you create a standard View or a Materialized View?",
+          answer: "A <strong>Materialized View</strong>—because it pre-computes and stores the result once, so dashboards read cached rows instead of re-running the heavy 6-table join every 5 seconds."
+        },
+        prompt: "Create a view named <code>eng_staff</code> containing <code>emp_name</code> and <code>salary</code> for employees in department <code>10</code>, then query all rows from <code>eng_staff</code>.",
+        hint: "Use <code>CREATE VIEW eng_staff AS ...</code> and end with <code>SELECT * FROM eng_staff;</code>.",
+        solution: "CREATE VIEW eng_staff AS SELECT emp_name, salary FROM employees WHERE dept_id = 10; SELECT * FROM eng_staff;",
         solved: false
+      },
+      {
+        id: 6,
+        title: "6. Basic SELECT Queries",
+        overview: "Every SQL report starts with SELECT. Mastering column aliases, DISTINCT, expressions, and LIMIT/OFFSET lets you shape clean outputs right away.",
+        diagram: DIAGRAMS.execution,
+        diagramCaption: "Where SELECT, DISTINCT & LIMIT Sit in Query Execution",
+        subtopics: [
+          ["SELECT Specific Columns vs SELECT *", "Always pick only the columns you need. SELECT * wastes network bandwidth and can break downstream pipelines if someone adds a new column later."],
+          ["DISTINCT, Column Aliases & Table Aliases", "DISTINCT removes duplicate rows from your output. Column aliases (AS total_pay) give readable headers. Table aliases (employees e) keep multi-table queries short."],
+          ["Literals, Expressions, Comments, LIMIT & OFFSET", "Expressions let you compute new columns on the fly (e.g., budget / 12 AS monthly_budget). Comments (-- note) document tricky logic. LIMIT + OFFSET paginates results page by page."]
+        ],
+        example: "SELECT dept_name AS department,\n       budget / 12 AS monthly_budget\nFROM departments\nORDER BY budget DESC\nLIMIT 2 OFFSET 0;",
+        scenario: {
+          question: "A marketing app displays 20 products per page. What LIMIT and OFFSET values fetch Page 3?",
+          answer: "<code>LIMIT 20 OFFSET 40</code> (Page 1 skips 0, Page 2 skips 20, Page 3 skips 40)."
+        },
+        prompt: "The product team wants a clean alphabetical list of unique product categories sold so far. Return each distinct <code>category</code> from <code>sales</code> sorted from A to Z.",
+        hint: "Use <code>DISTINCT</code> on <code>category</code> from the <code>sales</code> table and sort ascending.",
+        solution: "SELECT DISTINCT category FROM sales ORDER BY category ASC;",
+        solved: false
+      },
+      {
+        id: 7,
+        title: "7. SQL Operators",
+        overview: "Operators are the building blocks of conditions—letting you calculate numbers, check ranges, match text patterns, and test whether matching rows exist.",
+        diagram: DIAGRAMS.execution,
+        diagramCaption: "Operators Evaluate Row-by-Row During WHERE Filtering",
+        subtopics: [
+          ["Arithmetic (+, -, *, /, %), Comparison (=, !=, <, >) & Logical (AND, OR, NOT)", "Arithmetic computes values; comparison tests equality or magnitude; logical operators combine multiple true/false checks."],
+          ["BETWEEN, IN & NOT IN", "BETWEEN checks an inclusive range (low to high). IN checks if a value belongs to a list. Warning: NOT IN returns zero rows if the list contains a NULL!"],
+          ["LIKE & NOT LIKE", "Matches partial text: % stands for any number of characters ('%Tool' ends with Tool), and _ stands for exactly one character."],
+          ["IS NULL, IS NOT NULL, EXISTS, NOT EXISTS, ANY & ALL", "Always use IS NULL (never = NULL). EXISTS checks whether at least one matching row exists in a subquery—often faster and safer than IN."]
+        ],
+        example: "SELECT sale_id, product, amount\nFROM sales\nWHERE product LIKE '%Tool%'\n  AND amount BETWEEN 20000 AND 35000;",
+        scenario: {
+          question: "You run <code>SELECT * FROM employees WHERE dept_id NOT IN (10, NULL);</code> expecting everyone outside dept 10, but get 0 rows. Why?",
+          answer: "Because <code>dept_id NOT IN (10, NULL)</code> means <code>dept_id != 10 AND dept_id != NULL</code>. Since anything compared to <code>NULL</code> is <code>UNKNOWN</code>, the whole condition never evaluates to TRUE. Always filter out NULLs or use <code>NOT EXISTS</code>."
+        },
+        prompt: "Find the name and salary of employees earning between <code>80000</code> and <code>110000</code> (inclusive) who work in department <code>10</code> or <code>20</code>. Sort the result by <code>emp_id</code> ascending.",
+        hint: "Combine <code>BETWEEN</code> and <code>IN</code> inside your <code>WHERE</code> clause, then sort by <code>emp_id ASC</code>.",
+        solution: "SELECT emp_name, salary FROM employees WHERE salary BETWEEN 80000 AND 110000 AND dept_id IN (10, 20) ORDER BY emp_id ASC;",
+        solved: false
+      },
+      {
+        id: 8,
+        title: "8. Filtering & Sorting",
+        overview: "Combining AND, OR, NOT, and ORDER BY accurately prevents silent logic bugs where wrong rows slip into reports.",
+        diagram: DIAGRAMS.execution,
+        diagramCaption: "WHERE Filters First; ORDER BY Sorts Last",
+        subtopics: [
+          ["Operator Precedence (NOT → AND → OR)", "SQL evaluates AND before OR—just like multiplication before addition in math. Always wrap OR conditions in parentheses () when mixing AND and OR."],
+          ["ORDER BY (ASC, DESC) & NULL Sorting", "Sort by multiple columns (e.g., ORDER BY dept_id ASC, salary DESC) to break ties cleanly. Different databases place NULLs first or last by default, so check or handle NULL order explicitly."]
+        ],
+        example: "-- Parentheses ensure Active applies to BOTH departments\nSELECT emp_name, dept_id, salary\nFROM employees\nWHERE status = 'Active'\n  AND (dept_id = 10 OR dept_id = 20)\nORDER BY salary DESC, emp_id ASC;",
+        scenario: {
+          question: "Why does <code>WHERE status = 'Active' AND dept_id = 10 OR dept_id = 30</code> accidentally return Inactive employees from dept 30?",
+          answer: "Because <code>AND</code> binds tighter than <code>OR</code>, SQL reads it as <code>(status = 'Active' AND dept_id = 10) OR (dept_id = 30)</code>. Wrapping <code>(dept_id = 10 OR dept_id = 30)</code> in parentheses fixes it."
+        },
+        prompt: "List the name and salary of <strong>Active</strong> employees who belong to either department <code>10</code> or department <code>30</code> and earn at least <code>85000</code>. Sort highest salary first, breaking ties by lowest <code>emp_id</code>.",
+        hint: "Group the department check with parentheses and sort using <code>salary DESC, emp_id ASC</code>.",
+        solution: "SELECT emp_name, salary FROM employees WHERE status = 'Active' AND (dept_id = 10 OR dept_id = 30) AND salary >= 85000 ORDER BY salary DESC, emp_id ASC;",
+        solved: false
+      },
+      {
+        id: 9,
+        title: "9. SQL Functions",
+        overview: "Built-in functions let you clean messy text, calculate date differences, round numbers, and replace NULLs without exporting data to Python first.",
+        diagram: DIAGRAMS.execution,
+        diagramCaption: "Scalar Functions Transform Each Row; Aggregates Summarize Groups",
+        subtopics: [
+          ["Aggregate Functions (COUNT, SUM, AVG, MIN, MAX)", "Collapse many rows into one summary number. Note: AVG and SUM automatically ignore NULLs."],
+          ["String Functions (CONCAT, CONCAT_WS, LENGTH, LOWER, UPPER, TRIM, SUBSTRING, LEFT, RIGHT, REPLACE, SPLIT, POSITION, INSTR)", "Clean messy user input—for example TRIM() removes accidental spaces around emails, and LOWER() standardizes casing before joining."],
+          ["Date & Time Functions (CURRENT_DATE, YEAR, MONTH, DAY, DATE_ADD, DATE_SUB, DATEDIFF, DATE_TRUNC, EXTRACT, INTERVAL, Timezones)", "Essential for time-series analytics: DATE_TRUNC('month', sale_date) buckets daily sales into monthly cohorts."],
+          ["Numeric & NULL Functions (ROUND, CEIL, FLOOR, ABS, MOD, POWER, SQRT, COALESCE, NULLIF, NVL, IFNULL)", "COALESCE(bonus, 0) turns missing bonuses into 0 so math works. NULLIF(a, b) prevents divide-by-zero crashes."]
+        ],
+        example: "SELECT UPPER(emp_name) AS clean_name,\n       ROUND(salary / 12.0, 2) AS monthly_pay,\n       COALESCE(bonus, 0) AS safe_bonus\nFROM employees\nLIMIT 3;",
+        scenario: {
+          question: "In our <code>employees</code> table, Rohan Verma has <code>salary = 110000</code> and <code>bonus = NULL</code>. What does <code>salary + bonus</code> return if you forget <code>COALESCE</code>?",
+          answer: "It returns <code>NULL</code>! Adding any number to <code>NULL</code> yields <code>NULL</code>. Using <code>salary + COALESCE(bonus, 0)</code> safely returns <code>110000</code>."
+        },
+        prompt: "For employee <code>103</code> (Rohan Verma), display their name in all uppercase as <code>upper_name</code> and their total compensation (salary plus bonus, treating missing bonus as 0) as <code>total_comp</code>.",
+        hint: "Use <code>UPPER()</code> for the name and <code>COALESCE(bonus, 0)</code> when adding bonus to salary.",
+        solution: "SELECT UPPER(emp_name) AS upper_name, salary + COALESCE(bonus, 0) AS total_comp FROM employees WHERE emp_id = 103;",
+        solved: false
+      },
+      {
+        id: 10,
+        title: "10. GROUP BY & Aggregations",
+        overview: "GROUP BY is like sorting playing cards into piles by suit and counting each pile. WHERE filters cards before piling; HAVING filters piles after counting.",
+        diagram: DIAGRAMS.window,
+        diagramCaption: "GROUP BY Collapses Many Rows into One Summary Row per Group",
+        subtopics: [
+          ["GROUP BY Single & Multiple Columns + GROUP BY Rules", "Every non-aggregated column in your SELECT list must also appear in GROUP BY so SQL knows which bucket it belongs to."],
+          ["WHERE vs HAVING", "WHERE filters individual rows BEFORE grouping (cheaper and faster). HAVING filters aggregated group totals AFTER grouping (e.g., HAVING SUM(amount) > 50000)."],
+          ["Conditional Aggregation & COUNT vs COUNT(*) vs COUNT(DISTINCT)", "COUNT(*) counts every row. COUNT(bonus) skips NULL bonuses. COUNT(DISTINCT emp_id) counts unique employees. Conditional aggregation puts CASE inside SUM/COUNT to pivot metrics in one scan."]
+        ],
+        example: "SELECT region,\n       COUNT(*) AS total_orders,\n       COUNT(DISTINCT emp_id) AS unique_sellers,\n       SUM(amount) AS revenue\nFROM sales\nGROUP BY region\nHAVING SUM(amount) > 40000;",
+        scenario: {
+          question: "You want to calculate total sales per region, excluding cancelled orders, and only show regions with > $100k revenue. Where does 'status != Cancelled' go, and where does 'SUM(amount) > 100000' go?",
+          answer: "<code>status != 'Cancelled'</code> goes in <code>WHERE</code> (row-level filter before grouping), while <code>SUM(amount) > 100000</code> goes in <code>HAVING</code> (group-level filter after summing)."
+        },
+        prompt: "Calculate the total sales revenue for each product <code>category</code> in the <code>sales</code> table. Return <code>category</code> and <code>total_amount</code>, sorted alphabetically by category.",
+        hint: "Group rows by <code>category</code>, sum <code>amount</code> as <code>total_amount</code>, and sort ascending.",
+        solution: "SELECT category, SUM(amount) AS total_amount FROM sales GROUP BY category ORDER BY category ASC;",
+        solved: false
+      },
+      {
+        id: 11,
+        title: "11. CASE Statements",
+        overview: "CASE brings if-else decision making directly into SQL queries—great for bucketing numbers into tiers, cleaning codes, or building pivot summaries.",
+        diagram: DIAGRAMS.execution,
+        diagramCaption: "CASE Evaluates Top-to-Bottom and Stops at the First True WHEN",
+        subtopics: [
+          ["Simple CASE vs Searched CASE", "Simple CASE checks exact matches (CASE status WHEN 'Active' THEN 1). Searched CASE checks full conditions (CASE WHEN salary >= 100000 THEN 'Senior')."],
+          ["CASE inside Aggregates, GROUP BY, ORDER BY & Nested CASE", "Put CASE inside SUM() to calculate Software revenue and Services revenue side-by-side in one query. Put CASE in ORDER BY to pin 'Urgent' items to the top."],
+          ["CASE with NULL Values", "Always write WHEN col IS NULL THEN ... rather than WHEN col = NULL THEN ..., because = NULL never matches."]
+        ],
+        example: "SELECT\n  SUM(CASE WHEN category = 'Software' THEN amount ELSE 0 END) AS software_rev,\n  SUM(CASE WHEN category = 'Services' THEN amount ELSE 0 END) AS services_rev\nFROM sales;",
+        scenario: {
+          question: "Why should you always check <code>WHEN score >= 90</code> before <code>WHEN score >= 70</code> in a CASE statement?",
+          answer: "Because <code>CASE</code> stops at the <strong>first</strong> matching branch. If <code>score >= 70</code> came first, a score of 95 would match <code>>= 70</code> and never reach the <code>>= 90</code> branch."
+        },
+        prompt: "Classify every employee into a compensation band: return <code>emp_name</code> and a column named <code>pay_tier</code> labeled <code>'High'</code> if salary is <code>100000</code> or more, and <code>'Standard'</code> otherwise. Sort by <code>emp_id</code> ascending.",
+        hint: "Use a searched <code>CASE WHEN salary >= 100000 THEN 'High' ELSE 'Standard' END</code> expression.",
+        solution: "SELECT emp_name, CASE WHEN salary >= 100000 THEN 'High' ELSE 'Standard' END AS pay_tier FROM employees ORDER BY emp_id ASC;",
+        solved: false
+      },
+      {
+        id: 12,
+        title: "12. SQL Joins",
+        overview: "Real databases split data across multiple tables. Joins stitch those tables back together horizontally using matching keys.",
+        diagram: DIAGRAMS.joins,
+        diagramCaption: "Visual Guide: INNER, LEFT, LEFT ANTI & FULL OUTER Joins",
+        subtopics: [
+          ["INNER, LEFT, RIGHT & FULL OUTER JOIN", "INNER keeps only matching pairs. LEFT keeps every row from the left table even if there is no match on the right (filling NULLs). FULL OUTER keeps unmatched rows from both sides."],
+          ["CROSS JOIN & SELF JOIN", "CROSS JOIN pairs every row with every other row (useful for generating date x product grids). SELF JOIN joins a table to itself—for example matching each employee's manager_id to their manager's emp_id."],
+          ["LEFT ANTI JOIN & LEFT SEMI JOIN", "LEFT ANTI JOIN (LEFT JOIN + WHERE right.key IS NULL) finds orphans—like departments with zero employees. LEFT SEMI JOIN (WHERE EXISTS) checks existence without duplicating rows."],
+          ["Multi-Column Joins, NULLs in Joins & Avoiding Fan-Out", "Always check cardinality before joining 3–5+ tables: joining two 1:Many child tables directly creates a Cartesian fan-out that inflates SUM() totals."]
+        ],
+        example: "-- Find departments that currently have ZERO employees (Left Anti Join)\nSELECT d.dept_id, d.dept_name\nFROM departments d\nLEFT JOIN employees e ON d.dept_id = e.dept_id\nWHERE e.emp_id IS NULL;",
+        scenario: {
+          question: "You run <code>LEFT JOIN departments d ON e.dept_id = d.dept_id WHERE d.location = 'Bengaluru'</code> and suddenly unassigned employees disappear! Why?",
+          answer: "Putting a right-table filter (<code>d.location = 'Bengaluru'</code>) in the <code>WHERE</code> clause removes rows where <code>d.location</code> is <code>NULL</code>, turning your <code>LEFT JOIN</code> into an <code>INNER JOIN</code>. Move right-table conditions into the <code>ON</code> clause if you want to keep unmatched left rows."
+        },
+        prompt: "Produce a complete roster of all employees (including anyone not yet assigned to a department) showing <code>emp_name</code> and <code>dept_name</code>, ordered by <code>emp_id</code> ascending.",
+        hint: "Use a <code>LEFT JOIN</code> from <code>employees</code> to <code>departments</code> so Kabir Sen is preserved.",
+        solution: "SELECT e.emp_name, d.dept_name FROM employees e LEFT JOIN departments d ON e.dept_id = d.dept_id ORDER BY e.emp_id ASC;",
+        solved: false
+      },
+      {
+        id: 13,
+        title: "13. Set Operations",
+        overview: "While JOINs stitch columns side-by-side, Set Operations stack rows vertically from two queries with matching column shapes.",
+        diagram: DIAGRAMS.joins,
+        diagramCaption: "Comparing & Combining Two Result Sets Vertically",
+        subtopics: [
+          ["UNION vs UNION ALL", "UNION stacks two results and removes duplicates (requires sorting/hashing). UNION ALL stacks everything as-is—much faster when you know rows don't overlap or want to keep all records."],
+          ["INTERSECT & EXCEPT / MINUS", "INTERSECT keeps rows appearing in BOTH queries. EXCEPT (called MINUS in Oracle) keeps rows in Query 1 that are missing from Query 2—great for comparing yesterday's snapshot against today's."]
+        ],
+        example: "-- Departments that exist in departments table but have no employees\nSELECT dept_id FROM departments\nEXCEPT\nSELECT dept_id FROM employees WHERE dept_id IS NOT NULL;",
+        scenario: {
+          question: "You are combining 12 monthly archive tables (<code>sales_jan</code> through <code>sales_dec</code>) that never share overlapping rows. Should you use <code>UNION</code> or <code>UNION ALL</code>?",
+          answer: "Always use <code>UNION ALL</code>—because <code>UNION</code> wastes huge memory and CPU trying to deduplicate millions of rows that are already distinct."
+        },
+        prompt: "Using a set operation, build an alphabetically sorted list of unique <code>region</code> names from <code>sales</code> that are either <code>'West'</code> or <code>'North'</code>.",
+        hint: "Combine two separate <code>SELECT region</code> queries using <code>UNION</code> and order ascending.",
+        solution: "SELECT region FROM sales WHERE region = 'West' UNION SELECT region FROM sales WHERE region = 'North' ORDER BY region ASC;",
+        solved: false
+      },
+      {
+        id: 14,
+        title: "14. Subqueries",
+        overview: "A subquery is a query inside another query—letting you compute a threshold or lookup list first and use it immediately in the outer query.",
+        diagram: DIAGRAMS.execution,
+        diagramCaption: "Inner Subquery Computes First to Feed the Outer Filter",
+        subtopics: [
+          ["Scalar, Single-Row & Multi-Row Subqueries", "Scalar returns 1 cell (e.g., average salary). Multi-row returns a column of values used with IN, ANY, or ALL."],
+          ["Correlated vs Non-Correlated Subqueries", "Non-correlated runs once independently. Correlated references the outer row (e.g., comparing an employee's salary to the average of their own department)."],
+          ["Subquery in SELECT, FROM, WHERE, HAVING & EXISTS vs IN", "Use EXISTS when checking whether a related record exists in a large table—it stops scanning as soon as it finds the first match."]
+        ],
+        example: "-- Employees earning more than their own department's average (Correlated)\nSELECT e1.emp_name, e1.dept_id, e1.salary\nFROM employees e1\nWHERE e1.salary > (\n  SELECT AVG(e2.salary)\n  FROM employees e2\n  WHERE e2.dept_id = e1.dept_id\n);",
+        scenario: {
+          question: "You need to find all customers who have placed at least one order in a 500-million-row <code>orders</code> table. Why is <code>WHERE EXISTS (SELECT 1 FROM orders o WHERE o.cust_id = c.cust_id)</code> often preferred over <code>IN</code>?",
+          answer: "<code>EXISTS</code> short-circuits on the very first matching order per customer and avoids NULL-comparison pitfalls."
+        },
+        prompt: "Identify all employees earning strictly above the company-wide average salary. Return <code>emp_name</code> and <code>salary</code>, ordered by <code>emp_id</code> ascending.",
+        hint: "Compare each employee's <code>salary</code> against a scalar subquery computing <code>AVG(salary)</code>.",
+        solution: "SELECT emp_name, salary FROM employees WHERE salary > (SELECT AVG(salary) FROM employees) ORDER BY emp_id ASC;",
+        solved: false
+      },
+      {
+        id: 15,
+        title: "15. Common Table Expressions (CTEs)",
+        overview: "CTEs turn messy, deeply nested subqueries into clean, top-to-bottom building blocks—like naming variables in Python or JavaScript.",
+        diagram: DIAGRAMS.execution,
+        diagramCaption: "CTEs Structure Multi-Step Pipelines into Clean Readable Blocks",
+        subtopics: [
+          ["WITH Clause, Multiple CTEs & Chained CTEs", "Define step1 AS (...), step2 AS (SELECT ... FROM step1) so anyone reading your SQL follows the data transformation sequentially."],
+          ["CTE with Joins, Aggregations & Window Functions", "Because SQL cannot filter window functions directly in WHERE, compute ROW_NUMBER() inside a CTE first and filter WHERE rn = 1 outside."],
+          ["Recursive CTE & CTE vs Temporary Table", "Recursive CTEs loop over themselves to walk org charts or generate missing dates. Unlike Temp Tables, a CTE vanishes as soon as the single query finishes."]
+        ],
+        example: "WITH region_rev AS (\n  SELECT region, SUM(amount) AS total_rev\n  FROM sales\n  GROUP BY region\n)\nSELECT * FROM region_rev WHERE total_rev >= 50000;",
+        scenario: {
+          question: "You reuse an expensive 4-table intermediate dataset across 5 separate queries in an ETL script. Should you use a CTE or a Temporary Table?",
+          answer: "Use a <strong>Temporary Table</strong> (with indexes if needed)—because a CTE only exists for a single statement and would recompute that 4-table join 5 separate times."
+        },
+        prompt: "Create a CTE named <code>emp_sales</code> that totals <code>amount</code> as <code>total_amount</code> per <code>emp_id</code> from <code>sales</code>. Then select <code>emp_id</code> and <code>total_amount</code> for employees whose total sales are at least <code>40000</code>, ordered by <code>emp_id</code> ascending.",
+        hint: "Define <code>WITH emp_sales AS (...)</code> grouping <code>sales</code> by <code>emp_id</code>, then filter the CTE in the outer query.",
+        solution: "WITH emp_sales AS (SELECT emp_id, SUM(amount) AS total_amount FROM sales GROUP BY emp_id) SELECT emp_id, total_amount FROM emp_sales WHERE total_amount >= 40000 ORDER BY emp_id ASC;",
+        solved: false
+      },
+      {
+        id: 16,
+        title: "16. Window Functions",
+        overview: "Window functions are SQL's superpower: they calculate rankings, running totals, and previous/next comparisons across related rows WITHOUT squashing rows together.",
+        diagram: DIAGRAMS.window,
+        diagramCaption: "GROUP BY Squashes Rows vs. OVER() Preserves Every Row",
+        subtopics: [
+          ["OVER(), PARTITION BY, ORDER BY & Window Frames", "PARTITION BY defines the group boundary (like per department). ORDER BY sets the sequence inside that group. Window frames (ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) control sliding windows."],
+          ["ROW_NUMBER vs RANK vs DENSE_RANK vs NTILE", "Given salaries 110k, 110k, 95k: ROW_NUMBER gives 1, 2, 3; RANK gives 1, 1, 3 (skips 2); DENSE_RANK gives 1, 1, 2 (no gaps). NTILE(4) splits rows into quartiles."],
+          ["LAG, LEAD, FIRST_VALUE, LAST_VALUE & NTH_VALUE", "LAG looks backward at the previous row (great for month-over-month change); LEAD looks forward at the next row."],
+          ["Running Totals, Moving Averages, Deduplication & Gaps and Islands", "SUM(amount) OVER (ORDER BY sale_date) builds a running total. ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY updated_at DESC) = 1 deduplicates records cleanly."]
+        ],
+        example: "SELECT sale_id, sale_date, amount,\n       SUM(amount) OVER (ORDER BY sale_date, sale_id) AS running_total,\n       LAG(amount) OVER (ORDER BY sale_date, sale_id) AS prev_sale\nFROM sales;",
+        scenario: {
+          question: "Your ingestion pipeline accidentally loaded duplicate rows for the same <code>order_id</code> with different <code>ingested_at</code> timestamps. How do you keep only the newest row per order?",
+          answer: "Use <code>ROW_NUMBER() OVER (PARTITION BY order_id ORDER BY ingested_at DESC) AS rn</code> inside a CTE and filter <code>WHERE rn = 1</code>."
+        },
+        prompt: "Rank all employees from highest salary to lowest (breaking ties by lowest <code>emp_id</code>). Return <code>emp_name</code>, <code>salary</code>, and a sequential row number column named <code>rn</code>, ordered by <code>rn</code> ascending.",
+        hint: "Use <code>ROW_NUMBER() OVER (ORDER BY salary DESC, emp_id ASC) AS rn</code>.",
+        solution: "SELECT emp_name, salary, ROW_NUMBER() OVER (ORDER BY salary DESC, emp_id ASC) AS rn FROM employees ORDER BY rn ASC;",
+        solved: false
+      },
+      {
+        id: 17,
+        title: "17. Advanced SQL Query Patterns",
+        overview: "Master the repeatable query recipes used in real-world analytics pipelines, cohort retention reports, and technical interviews.",
+        diagram: DIAGRAMS.window,
+        diagramCaption: "Ranking, Funnel Conversion & Time-Series Patterns",
+        subtopics: [
+          ["Top N per Group & Second/Nth Highest Salary", "Always use DENSE_RANK() when a question asks for 'Second Highest Salary' so ties for #1 don't push #2 down to #3."],
+          ["Finding & Removing Duplicates + Finding Missing Records/Dates", "Use GROUP BY ... HAVING COUNT(*) > 1 to spot duplicates, and LEFT JOIN / recursive date spines to spot missing days."],
+          ["YoY/MoM Growth, Pivoting, Unpivoting, Cohort Retention & Funnel Queries", "Funnels count distinct users at each stage (Signup → Trial → Paid). Pivoting turns row categories into columns via conditional SUM(CASE WHEN ...)."]
+        ],
+        example: "-- Funnel conversion summary from events table\nSELECT stage, COUNT(DISTINCT user_id) AS users\nFROM events\nGROUP BY stage\nORDER BY users DESC;",
+        scenario: {
+          question: "Two executives tie for the #1 highest salary ($120,000), and the next person earns $110,000. Why does <code>ORDER BY salary DESC LIMIT 1 OFFSET 1</code> return the wrong answer ($120,000)?",
+          answer: "Because <code>LIMIT/OFFSET</code> operates on physical rows, not distinct values. Using <code>DENSE_RANK() OVER (ORDER BY salary DESC) = 2</code> accurately returns <code>$110,000</code>."
+        },
+        prompt: "Find the distinct <strong>second highest salary</strong> across the entire <code>employees</code> table and return it as a single column named <code>second_highest_salary</code>.",
+        hint: "Rank salaries descending with <code>DENSE_RANK()</code> inside a subquery or CTE, then select distinct salary where rank equals 2.",
+        solution: "SELECT DISTINCT salary AS second_highest_salary FROM (SELECT salary, DENSE_RANK() OVER (ORDER BY salary DESC) AS rnk FROM employees) WHERE rnk = 2;",
+        solved: false
+      },
+      {
+        id: 18,
+        title: "18. SQL NULL Handling",
+        overview: "NULL does not mean zero or blank—it means 'unknown'. Treating NULL like a normal value is one of the most common sources of silent data bugs.",
+        diagram: DIAGRAMS.execution,
+        diagramCaption: "Three-Valued Logic: TRUE, FALSE, and UNKNOWN",
+        subtopics: [
+          ["NULL vs 0 vs Empty String & Three-Valued Logic", "In SQL, TRUE, FALSE, and UNKNOWN exist. Checking bonus = NULL or bonus != NULL always yields UNKNOWN, so WHERE drops the row."],
+          ["IS NULL, IS NOT NULL, COALESCE & NULLIF", "Always test with IS NULL / IS NOT NULL. Use COALESCE(col, fallback) to supply defaults, and NULLIF(col, 0) to turn zero into NULL before dividing."],
+          ["NULL Behavior in Aggregations, Joins, ORDER BY & CASE", "COUNT(bonus) skips NULLs while COUNT(*) counts every row. NULL keys never match each other in standard JOINs."]
+        ],
+        example: "SELECT COUNT(*) AS total_staff,\n       COUNT(bonus) AS staff_with_bonus,\n       AVG(bonus) AS avg_of_non_null_bonuses,\n       AVG(COALESCE(bonus, 0)) AS avg_across_all_staff\nFROM employees;",
+        scenario: {
+          question: "Look at the example above: why is <code>AVG(bonus)</code> much higher than <code>AVG(COALESCE(bonus, 0))</code>?",
+          answer: "<code>AVG(bonus)</code> divides the sum only by employees who have a non-null bonus (6 people), whereas <code>AVG(COALESCE(bonus, 0))</code> divides by all 8 employees."
+        },
+        prompt: "Identify all employees who do not have a recorded bonus yet (<code>bonus</code> is missing). Return their <code>emp_id</code> and <code>emp_name</code>, sorted by <code>emp_id</code> ascending.",
+        hint: "Test for missing values with <code>IS NULL</code> rather than <code>= NULL</code>.",
+        solution: "SELECT emp_id, emp_name FROM employees WHERE bonus IS NULL ORDER BY emp_id ASC;",
+        solved: false
+      },
+      {
+        id: 19,
+        title: "19. SQL Execution & Query Processing",
+        overview: "You write SELECT first, but the database executes FROM and WHERE first! Knowing the true execution order explains why aliases in SELECT fail inside WHERE.",
+        diagram: DIAGRAMS.execution,
+        diagramCaption: "Logical Query Processing Order Inside the SQL Engine",
+        subtopics: [
+          ["Logical Query Processing Order", "1. FROM/JOIN → 2. WHERE → 3. GROUP BY → 4. HAVING → 5. Window Functions → 6. SELECT → 7. DISTINCT → 8. ORDER BY → 9. LIMIT/OFFSET."],
+          ["EXPLAIN, EXPLAIN ANALYZE, Cost-Based Optimizer & Logical vs Physical Plans", "The Cost-Based Optimizer estimates row counts and picks physical algorithms (Nested Loop vs Hash Join, Index Seek vs Full Scan). EXPLAIN shows the plan; EXPLAIN ANALYZE executes it and shows actual row counts and timings."]
+        ],
+        example: "EXPLAIN QUERY PLAN\nSELECT e.emp_name, d.dept_name\nFROM employees e\nJOIN departments d ON e.dept_id = d.dept_id\nWHERE e.emp_id = 101;",
+        scenario: {
+          question: "Why does <code>SELECT salary * 12 AS annual_sal FROM employees WHERE annual_sal > 1000000</code> throw an 'unknown column' error in most databases?",
+          answer: "Because <code>WHERE</code> runs at Step 2 before <code>SELECT</code> runs at Step 6—so the alias <code>annual_sal</code> does not exist yet during <code>WHERE</code>!"
+        },
+        prompt: "Inspect SQLite's execution plan for looking up employee <code>101</code> by running <code>EXPLAIN QUERY PLAN</code> on <code>SELECT * FROM employees WHERE emp_id = 101;</code>.",
+        hint: "Prefix the <code>SELECT</code> statement with <code>EXPLAIN QUERY PLAN</code>.",
+        solution: "EXPLAIN QUERY PLAN SELECT * FROM employees WHERE emp_id = 101;",
+        solved: false
+      },
+      {
+        id: 20,
+        title: "20. SQL Indexing",
+        overview: "An index is just like the alphabetical index at the back of a textbook—instead of flipping through all 800 pages to find 'Window Functions', you jump straight to page 412.",
+        diagram: DIAGRAMS.index,
+        diagramCaption: "Full Table Scan vs. B-Tree Index Seek",
+        subtopics: [
+          ["Clustered vs Non-Clustered, Composite, Unique & Covering Indexes", "Clustered sorts the actual table rows (one per table). Non-Clustered is a separate lookup tree pointing to rows. Composite indexes cover multiple columns (leftmost prefix rule applies). Covering indexes include every column needed by the query so the engine never touches the main table."],
+          ["B-Tree vs Hash Index, Index Seek vs Scan vs Full Table Scan", "B-Tree supports =, <, >, BETWEEN, and ORDER BY. Hash supports = only. Index Seek jumps straight to matching keys; Index Scan reads the whole index."],
+          ["Selectivity, Cardinality, Maintenance & When NOT to Index", "High cardinality (unique IDs/emails) = great index. Low cardinality (boolean is_active) = poor index. Every index slows down INSERT/UPDATE/DELETE slightly, so avoid over-indexing write-heavy tables."]
+        ],
+        example: "CREATE INDEX idx_sales_region ON sales(region);\nEXPLAIN QUERY PLAN SELECT * FROM sales WHERE region = 'South';",
+        scenario: {
+          question: "You create a composite index on <code>(dept_id, status)</code>. Why does <code>WHERE status = 'Active'</code> still do a Full Table Scan?",
+          answer: "Because of the <strong>leftmost prefix rule</strong>: a B-Tree index on <code>(dept_id, status)</code> is sorted first by <code>dept_id</code>. Without filtering on <code>dept_id</code> first, the database cannot jump directly to <code>status</code>."
+        },
+        prompt: "Create an index named <code>idx_emp_dept</code> on the <code>dept_id</code> column of <code>employees</code>. Then verify it exists by selecting <code>name</code> from <code>sqlite_master</code> where <code>type='index'</code> and <code>name='idx_emp_dept'</code>.",
+        hint: "Run <code>CREATE INDEX idx_emp_dept ON employees(dept_id);</code> followed by the verification <code>SELECT</code>.",
+        solution: "CREATE INDEX idx_emp_dept ON employees(dept_id); SELECT name FROM sqlite_master WHERE type='index' AND name='idx_emp_dept';",
+        solved: false
+      },
+      {
+        id: 21,
+        title: "21. SQL Query Optimization",
+        overview: "Fast SQL is all about moving fewer bytes: filter early, keep predicates SARGable, avoid unnecessary sorts, and aggregate before joining large tables.",
+        diagram: DIAGRAMS.index,
+        diagramCaption: "Filter Early & Use SARGable Predicates to Avoid Full Scans",
+        subtopics: [
+          ["SARGable Predicates (Search ARGument ABLE)", "Never wrap an indexed column in a function in WHERE: write WHERE hire_date >= '2023-01-01' AND hire_date < '2024-01-01' instead of WHERE YEAR(hire_date) = 2023 so the index stays usable."],
+          ["Predicate Pushdown, Pre-Aggregation & Avoiding Wasteful Sorts", "Filter rows before joining, pre-aggregate huge fact tables before joining dimensions, and drop DISTINCT/ORDER BY when downstream systems don't need them."]
+        ],
+        example: "-- SARGable date range filter\nSELECT sale_id, amount\nFROM sales\nWHERE sale_date >= '2025-02-01' AND sale_date < '2025-03-01';",
+        scenario: {
+          question: "A nightly query takes 18 minutes because it joins a 200M-row <code>orders</code> table to <code>customers</code> first and then groups by <code>customer_id</code>. How do you cut runtime to under 2 minutes?",
+          answer: "<strong>Pre-aggregate first:</strong> group <code>orders</code> by <code>customer_id</code> inside a CTE first (reducing 200M rows to ~2M customer rows) and then join to <code>customers</code>."
+        },
+        prompt: "Filter <code>sales</code> early for <code>'Software'</code> category transactions, then calculate total sales per <code>emp_id</code> as <code>software_total</code>, ordered by <code>emp_id</code> ascending.",
+        hint: "Place <code>WHERE category = 'Software'</code> before <code>GROUP BY emp_id</code>.",
+        solution: "SELECT emp_id, SUM(amount) AS software_total FROM sales WHERE category = 'Software' GROUP BY emp_id ORDER BY emp_id ASC;",
+        solved: false
+      },
+      {
+        id: 22,
+        title: "22. Transactions & ACID",
+        overview: "Transactions bundle multiple SQL operations into an all-or-nothing unit so money transfers, inventory updates, and pipeline loads never leave half-finished states.",
+        diagram: DIAGRAMS.acid,
+        diagramCaption: "The Four Pillars of ACID Reliability",
+        subtopics: [
+          ["Atomicity, Consistency, Isolation & Durability (ACID)", "Atomicity = all-or-nothing. Consistency = constraints stay intact. Isolation = concurrent users don't see dirty half-committed edits. Durability = committed data is written safely to disk/WAL logs."],
+          ["Isolation Levels & Read Phenomena", "Dirty Read (reading uncommitted data), Non-Repeatable Read (same row changes mid-transaction), Phantom Read (new rows appear mid-transaction). Levels: Read Uncommitted → Read Committed → Repeatable Read → Serializable."]
+        ],
+        example: "BEGIN TRANSACTION;\nUPDATE departments SET budget = budget - 5000 WHERE dept_id = 10;\nUPDATE departments SET budget = budget + 5000 WHERE dept_id = 20;\nCOMMIT;",
+        scenario: {
+          question: "During a bank transfer, Step 1 deducts ₹10,000 from Account A, and the server crashes before Step 2 credits Account B. Which ACID property guarantees Account A gets its ₹10,000 back on recovery?",
+          answer: "<strong>Atomicity</strong>—because the transaction never reached <code>COMMIT</code>, the database automatically rolls back Step 1 during crash recovery."
+        },
+        prompt: "Start an explicit transaction, increase the <code>budget</code> of department <code>30</code> by <code>10000</code>, commit the transaction, and then query <code>dept_id</code> and <code>budget</code> for department <code>30</code>.",
+        hint: "Wrap the <code>UPDATE</code> between <code>BEGIN TRANSACTION;</code> and <code>COMMIT;</code>, followed by the <code>SELECT</code>.",
+        solution: "BEGIN TRANSACTION; UPDATE departments SET budget = budget + 10000 WHERE dept_id = 30; COMMIT; SELECT dept_id, budget FROM departments WHERE dept_id = 30;",
+        solved: false
+      },
+      {
+        id: 23,
+        title: "23. Advanced Database Concepts",
+        overview: "Understand how enterprise databases scale to terabytes using partitioning, replication, locking/MVCC, and database-side automation.",
+        diagram: DIAGRAMS.index,
+        diagramCaption: "Partition Pruning Skips Irrelevant Data Chunks",
+        subtopics: [
+          ["Table Partitioning & Partition Pruning", "Splits a massive table into smaller physical pieces (e.g., one partition per month). When you query March 2025, Partition Pruning skips Jan, Feb, and Apr–Dec completely."],
+          ["Replication, Locks, Deadlocks & MVCC", "Read Replicas offload heavy BI queries from the primary database. MVCC lets readers read snapshots without blocking writers. Deadlocks happen when Transaction A waits for B while B waits for A."],
+          ["Stored Procedures & Triggers", "Stored Procedures encapsulate multi-step SQL workflows on the server. Triggers fire automatically on INSERT/UPDATE/DELETE (useful for audit trails, though overuse hides logic)."]
+        ],
+        example: "SELECT region,\n       COUNT(*) AS order_count,\n       SUM(amount) AS regional_revenue\nFROM sales\nGROUP BY region\nORDER BY region ASC;",
+        scenario: {
+          question: "Two batch jobs frequently deadlock when updating rows in <code>employees</code> and <code>departments</code> in opposite orders. What is the simplest code fix?",
+          answer: "Enforce a <strong>consistent lock acquisition order</strong> across all jobs (always update <code>departments</code> first, then <code>employees</code>) so circular waits cannot happen."
+        },
+        prompt: "Summarize total revenue per <code>region</code> from <code>sales</code>, returning <code>region</code> and <code>regional_revenue</code> sorted alphabetically by region.",
+        hint: "Group <code>sales</code> by <code>region</code> and sum <code>amount</code> as <code>regional_revenue</code>.",
+        solution: "SELECT region, SUM(amount) AS regional_revenue FROM sales GROUP BY region ORDER BY region ASC;",
+        solved: false
+      },
+      {
+        id: 24,
+        title: "24. SQL Data Warehousing Concepts",
+        overview: "Data warehouses store years of historical data for analytics—requiring clear grain definitions and Slowly Changing Dimensions to preserve history accurately.",
+        diagram: DIAGRAMS.modeling,
+        diagramCaption: "Dimensional Warehouse Design & Historical Tracking",
+        subtopics: [
+          ["Grain Definition", "The golden rule of warehousing: state what ONE row in a fact table represents (e.g., 'one row per completed sale transaction') before writing any SQL."],
+          ["Slowly Changing Dimensions (SCD Type 1, Type 2 & Type 3)", "Type 1 overwrites old data (fixes typos). Type 2 keeps full history by expiring the old row (effective_to, is_current = 'N') and inserting a new current row—essential when an employee moves from Sales to Engineering and you want past sales credited to Sales!"],
+          ["Data Marts & Modern Lakehouses", "Data Marts serve specific teams (Finance, Marketing). Lakehouses (Delta Lake, Iceberg) bring ACID transactions and SQL directly onto cloud object storage."]
+        ],
+        example: "SELECT category, region, SUM(amount) AS revenue\nFROM sales\nGROUP BY category, region\nORDER BY category ASC, region ASC;",
+        scenario: {
+          question: "Priya Nair moved from Sales (Mumbai) in 2024 to Engineering (Bengaluru) in 2025. Finance wants 2024 revenue reported under Mumbai and 2025 under Bengaluru. Which SCD type do you implement?",
+          answer: "<strong>SCD Type 2</strong>—store <code>effective_from</code>, <code>effective_to</code>, and <code>is_current</code> on <code>dim_employee</code> and join fact rows on <code>emp_id</code> plus the transaction date falling between effective dates."
+        },
+        prompt: "Build a warehouse rollup showing revenue by <code>category</code> and <code>region</code> from <code>sales</code>. Return <code>category</code>, <code>region</code>, and <code>revenue</code>, sorted by <code>category</code> then <code>region</code> ascending.",
+        hint: "Group by both <code>category</code> and <code>region</code>, summing <code>amount</code> as <code>revenue</code>.",
+        solution: "SELECT category, region, SUM(amount) AS revenue FROM sales GROUP BY category, region ORDER BY category ASC, region ASC;",
+        solved: false
+      },
+      {
+        id: 25,
+        title: "25. SQL for Data Engineering",
+        overview: "Production data pipelines must survive retries, network blips, and bad upstream files without duplicating rows or silently corrupting dashboards.",
+        diagram: DIAGRAMS.acid,
+        diagramCaption: "Idempotent & Quality-Checked Data Pipelines",
+        subtopics: [
+          ["Idempotent Pipelines (MERGE / Upsert & Delete-Write)", "Running today's pipeline twice must produce the exact same table as running it once. Use MERGE/UPSERT or delete the target date partition before re-inserting."],
+          ["Incremental Loads & Watermarking", "Instead of reloading 500M rows every hour, filter WHERE updated_at > last_successful_watermark."],
+          ["Automated Data Quality Checks", "Run SQL assertions after loading: check zero duplicate primary keys, zero unexpected NULLs, and valid foreign key matches."]
+        ],
+        example: "-- Data quality check: ensure no duplicate primary keys exist\nSELECT emp_id, COUNT(*) AS cnt\nFROM employees\nGROUP BY emp_id\nHAVING COUNT(*) > 1;",
+        scenario: {
+          question: "An Airflow job fails halfway through inserting today's 50,000 rows, and automatically retries 5 minutes later. Without idempotency, what happens?",
+          answer: "You end up with <strong>duplicate rows</strong> (up to 100,000 rows for today). Making the load idempotent via <code>MERGE</code> or deleting today's partition first prevents duplicates."
+        },
+        prompt: "Run a data-quality check on <code>sales</code> to find employees who have logged more than one sale. Return <code>emp_id</code> and <code>sale_count</code>, ordered by <code>emp_id</code> ascending.",
+        hint: "Group <code>sales</code> by <code>emp_id</code> and keep groups where <code>COUNT(*) &gt; 1</code>.",
+        solution: "SELECT emp_id, COUNT(*) AS sale_count FROM sales GROUP BY emp_id HAVING COUNT(*) > 1 ORDER BY emp_id ASC;",
+        solved: false
+      },
+      {
+        id: 26,
+        title: "26. Advanced Data Engineering SQL",
+        overview: "Tackle complex analytical transformations including recursive hierarchies, funnel conversion tracking, sessionization, and semi-structured data.",
+        diagram: DIAGRAMS.window,
+        diagramCaption: "Recursive Hierarchies & Event Funnel Transformations",
+        subtopics: [
+          ["Recursive CTEs for Hierarchies & Date Spines", "Start with a root anchor query and UNION ALL a recursive step joining child rows to parent rows until no children remain."],
+          ["Funnel & Sessionization Queries", "Track multi-step user conversion (Signup → Trial → Paid) or split clickstreams into sessions whenever idle time exceeds 30 minutes."],
+          ["Handling JSON / Semi-Structured Payloads", "Modern SQL engines parse JSON fields directly and flatten arrays into relational rows during ingestion."]
+        ],
+        example: "-- Funnel conversion summary from events table\nSELECT\n  COUNT(DISTINCT CASE WHEN stage = 'Signup' THEN user_id END) AS signed_up,\n  COUNT(DISTINCT CASE WHEN stage = 'Trial' THEN user_id END) AS started_trial,\n  COUNT(DISTINCT CASE WHEN stage = 'Paid' THEN user_id END) AS converted_paid\nFROM events;",
+        scenario: {
+          question: "How do you split user click events into sessions when a new session starts after 30+ minutes of inactivity?",
+          answer: "Use <code>LAG(event_time) OVER (PARTITION BY user_id ORDER BY event_time)</code> to flag gaps &gt; 30 minutes as <code>1</code> (else <code>0</code>), then take a cumulative <code>SUM(is_new_session)</code> to assign a unique <code>session_id</code>."
+        },
+        prompt: "Using a recursive CTE, traverse the reporting hierarchy in <code>employees</code> starting from top-level leaders (<code>manager_id IS NULL</code> at <code>level = 0</code>) down through direct and indirect reports (<code>level + 1</code>). Return <code>emp_id</code>, <code>emp_name</code>, and <code>level</code> ordered by <code>emp_id</code> ascending.",
+        hint: "Combine an anchor query for <code>manager_id IS NULL</code> with a recursive <code>UNION ALL</code> joining <code>employees.manager_id</code> to the CTE's <code>emp_id</code>.",
+        solution: "WITH RECURSIVE org_chart(emp_id, emp_name, manager_id, level) AS (SELECT emp_id, emp_name, manager_id, 0 FROM employees WHERE manager_id IS NULL UNION ALL SELECT e.emp_id, e.emp_name, e.manager_id, oc.level + 1 FROM employees e JOIN org_chart oc ON e.manager_id = oc.emp_id) SELECT emp_id, emp_name, level FROM org_chart ORDER BY emp_id ASC;",
+        solved: false
+      },
+      {
+        id: 27,
+        title: "27. SQL Interview Problem Solving",
+        overview: "Use a structured 4-step checklist in live coding interviews so you never miss edge cases like ties, NULLs, or empty groups.",
+        diagram: DIAGRAMS.window,
+        diagramCaption: "Step-by-Step Framework: Grain → Partition → Rank → Filter",
+        subtopics: [
+          ["Step 1: Confirm Output Grain & Tie-Breaking Rules", "Ask: 'If two employees tie for highest salary in a department, should both appear?' (DENSE_RANK vs ROW_NUMBER)."],
+          ["Step 2: Check NULLs & Unmatched Entities", "Ask: 'What if an employee has dept_id = NULL, or a department has 0 sales?'"],
+          ["Step 3: Build Cleanly with CTEs & Window Functions", "Separate ranking/aggregation into a readable CTE before filtering in the outer SELECT."]
+        ],
+        example: "-- Top earner(s) per department\nWITH ranked AS (\n  SELECT emp_name, dept_id, salary,\n         DENSE_RANK() OVER (PARTITION BY dept_id ORDER BY salary DESC) AS rnk\n  FROM employees\n  WHERE dept_id IS NOT NULL\n)\nSELECT emp_name, dept_id, salary FROM ranked WHERE rnk = 1;",
+        scenario: {
+          question: "In an interview, you are asked for 'Top 3 highest paid employees in each department'. Why should you clarify whether ties count as the same rank?",
+          answer: "If 3 people tie for #1, <code>ROW_NUMBER()</code> arbitrarily drops one of them, whereas <code>DENSE_RANK()</code> includes all tied top earners."
+        },
+        prompt: "Find the highest-paid employee(s) within each assigned department (exclude rows where <code>dept_id</code> is NULL). Return <code>emp_name</code>, <code>dept_id</code>, and <code>salary</code>, ordered by <code>dept_id</code> ascending and then <code>emp_id</code> ascending.",
+        hint: "Partition by <code>dept_id</code>, rank by <code>salary DESC</code> using <code>DENSE_RANK()</code>, and keep rank 1.",
+        solution: "SELECT emp_name, dept_id, salary FROM (SELECT emp_id, emp_name, dept_id, salary, DENSE_RANK() OVER (PARTITION BY dept_id ORDER BY salary DESC) AS rnk FROM employees WHERE dept_id IS NOT NULL) WHERE rnk = 1 ORDER BY dept_id ASC, emp_id ASC;",
+        solved: false
+      },
+      {
+        id: 28,
+        title: "28. SQL Best Practices",
+        overview: "Clean, defensive SQL saves hours of on-call debugging for you and your teammates.",
+        diagram: DIAGRAMS.execution,
+        diagramCaption: "Readable, Defensive & Predictable Production SQL",
+        subtopics: [
+          ["Readable Formatting & Naming Conventions", "Uppercase SQL keywords, put each selected column on its own line, use meaningful aliases (e, d, s instead of t1, t2, t3), and stick to snake_case."],
+          ["Defensive Coding (COALESCE, NULLIF, Explicit Joins)", "Use explicit JOIN ... ON syntax (never comma-separated WHERE joins), guard denominators with NULLIF(denom, 0), and handle NULL strings with COALESCE."],
+          ["Validate Row Counts Before & After Transformations", "Check that joins didn't accidentally multiply or drop rows compared to your source grain."]
+        ],
+        example: "SELECT e.emp_id,\n       e.emp_name,\n       COALESCE(d.dept_name, 'Unassigned') AS department\nFROM employees e\nLEFT JOIN departments d\n  ON e.dept_id = d.dept_id\nORDER BY e.emp_id ASC;",
+        scenario: {
+          question: "Why are old-style comma joins (<code>FROM employees e, departments d WHERE e.dept_id = d.dept_id</code>) banned in most engineering style guides?",
+          answer: "Because forgetting one line in a long <code>WHERE</code> clause silently turns a join into a massive Cartesian <code>CROSS JOIN</code>, whereas explicit <code>JOIN ... ON</code> triggers a clear syntax error if <code>ON</code> is omitted."
+        },
+        prompt: "Write a clean production-style query displaying <code>emp_id</code>, <code>emp_name</code>, and department name labeled <code>department</code> (displaying <code>'Unassigned'</code> whenever an employee has no department). Order by <code>emp_id</code> ascending.",
+        hint: "Combine <code>LEFT JOIN</code> with <code>COALESCE(d.dept_name, 'Unassigned') AS department</code>.",
+        solution: "SELECT e.emp_id, e.emp_name, COALESCE(d.dept_name, 'Unassigned') AS department FROM employees e LEFT JOIN departments d ON e.dept_id = d.dept_id ORDER BY e.emp_id ASC;",
+        solved: false
+      }
+    ];
+
+    const INTERVIEW_QUESTIONS = [
+      {
+        role: "Data Engineer",
+        exp: "2-4 YOE",
+        type: "Core",
+        question: "What is the practical difference between ROW_NUMBER(), RANK(), and DENSE_RANK(), and when do you use each in ETL pipelines?",
+        answer: "Given values 100, 100, 90: <code>ROW_NUMBER()</code> assigns 1, 2, 3 (best for deduplicating records where you need exactly 1 winner per key). <code>RANK()</code> assigns 1, 1, 3 (leaves a gap). <code>DENSE_RANK()</code> assigns 1, 1, 2 (best for 'Top N salaries/products' where ties share the same tier without skipping ranks).",
+        code: "SELECT emp_id, salary,\n  ROW_NUMBER() OVER (ORDER BY salary DESC) AS rn,\n  DENSE_RANK() OVER (ORDER BY salary DESC) AS drnk\nFROM employees;"
+      },
+      {
+        role: "DBA",
+        exp: "2-4 YOE",
+        type: "Core",
+        question: "What is the difference between DELETE, TRUNCATE, and DROP in terms of logging, rollback, and storage?",
+        answer: "<code>DELETE</code> is DML—it removes rows one by one, logs every row in undo/redo logs, fires triggers, and can be rolled back. <code>TRUNCATE</code> is DDL—it deallocates data pages quickly with minimal logging, resets identity counters, and keeps table structure. <code>DROP</code> removes both data and table metadata completely.",
+        code: "-- Reversible row removal\nDELETE FROM staging_orders WHERE load_date < '2025-01-01';"
+      },
+      {
+        role: "Data Engineer",
+        exp: "2-4 YOE",
+        type: "Scenario",
+        question: "Scenario: Your daily incremental pipeline failed mid-run and inserted half of today's records. How do you design the SQL so re-running the job never creates duplicates?",
+        answer: "Make the pipeline <strong>idempotent</strong> using either an atomic <code>MERGE</code> (Upsert) on the business key or a <code>BEGIN; DELETE FROM target WHERE batch_date = :dt; INSERT INTO target SELECT ...; COMMIT;</code> pattern inside a single transaction.",
+        code: "BEGIN TRANSACTION;\nDELETE FROM fact_sales WHERE sale_date = '2025-04-04';\nINSERT INTO fact_sales SELECT * FROM stg_sales WHERE sale_date = '2025-04-04';\nCOMMIT;"
+      },
+      {
+        role: "DBA",
+        exp: "2-4 YOE",
+        type: "Scenario",
+        question: "Scenario: A user reports a critical query suddenly slowed down from 200ms to 45 seconds after a bulk data load. What are your first 3 checks?",
+        answer: "1) Check <strong>table/index statistics</strong>—stale stats after a bulk load cause the Cost-Based Optimizer to pick a bad plan (run <code>ANALYZE</code> / <code>DBMS_STATS</code>). 2) Inspect the <strong>execution plan</strong> (<code>EXPLAIN ANALYZE</code>) to see if an Index Seek flipped to a Full Table Scan. 3) Check for <strong>blocking locks</strong> or active long-running transactions.",
+        code: "EXPLAIN ANALYZE\nSELECT * FROM sales WHERE sale_date = '2025-03-10';"
+      },
+      {
+        role: "Data Engineer",
+        exp: "5-7 YOE",
+        type: "Scenario",
+        question: "Scenario: You join a 100M-row Orders table with a 50M-row Shipments table and notice revenue totals doubled! Why did this happen and how do you fix it?",
+        answer: "This is a <strong>many-to-many join fan-out</strong>: an order split into 2 shipments duplicates the order's revenue row twice. Fix it by <strong>pre-aggregating</strong> each table to the shared grain (<code>order_id</code>) inside separate CTEs before joining them together.",
+        code: "WITH ord AS (SELECT order_id, SUM(amount) AS rev FROM orders GROUP BY order_id),\n     shp AS (SELECT order_id, COUNT(*) AS pkg_cnt FROM shipments GROUP BY order_id)\nSELECT o.order_id, o.rev, COALESCE(s.pkg_cnt, 0)\nFROM ord o LEFT JOIN shp s ON o.order_id = s.order_id;"
+      },
+      {
+        role: "DBA",
+        exp: "5-7 YOE",
+        type: "Core",
+        question: "How does a B-Tree Composite Index on (tenant_id, created_at) behave for different WHERE clauses, and what is a Covering Index?",
+        answer: "Because of the <strong>leftmost prefix rule</strong>, <code>WHERE tenant_id = 5 AND created_at > '2025-01-01'</code> uses both columns efficiently, whereas <code>WHERE created_at > '2025-01-01'</code> alone usually cannot seek the index. A <strong>Covering Index</strong> includes all columns referenced in SELECT + WHERE so the engine answers the query purely from index pages without touching the heap/table.",
+        code: "CREATE INDEX idx_tenant_date_cover\nON events(tenant_id, event_date) INCLUDE (stage);"
+      },
+      {
+        role: "Data Engineer",
+        exp: "5-7 YOE",
+        type: "Core",
+        question: "How do you implement Slowly Changing Dimension (SCD) Type 2 in SQL when source records arrive daily?",
+        answer: "Compare incoming source hashes/attributes against current active dimension rows (<code>is_current = 1</code>). When an attribute changes, expire the old row by setting <code>effective_to = current_dt - 1, is_current = 0</code>, and insert the new version with <code>effective_from = current_dt, effective_to = '9999-12-31', is_current = 1</code>.",
+        code: "-- Expire changed rows, then insert new current version\nUPDATE dim_emp SET effective_to = '2025-04-01', is_current = 0\nWHERE emp_id = 102 AND is_current = 1;"
+      },
+      {
+        role: "DBA",
+        exp: "5-7 YOE",
+        type: "Scenario",
+        question: "Scenario: Production logs show frequent Deadlock errors (ORA-00060 / 1213) between two concurrent API services. How do you diagnose and eliminate them?",
+        answer: "Read the deadlock trace graph to identify the exact two SQL statements and locked resources. Deadlocks occur when Session A holds Row 1 and wants Row 2 while Session B holds Row 2 and wants Row 1. Fix by enforcing a <strong>deterministic update order</strong> (e.g., sort IDs ascending before locking), keeping transactions short, and ensuring foreign keys are indexed to avoid table-level locks.",
+        code: "-- Sort keys consistently before updating in batch\nSELECT * FROM accounts WHERE acct_id IN (10, 25) ORDER BY acct_id ASC FOR UPDATE;"
+      },
+      {
+        role: "Data Engineer",
+        exp: "8-10 YOE",
+        type: "Scenario",
+        question: "Scenario: A 15-TB clickstream fact table takes 3 hours to query for daily active user retention. How do you re-architect the data model and SQL layer?",
+        answer: "1) Partition the fact table by <code>event_date</code> and cluster/sort by <code>user_id</code> for partition pruning and co-located joins. 2) Build an incremental daily user-activity summary rollup table (1 row per user per day) instead of scanning raw clicks. 3) Pre-compute cohort retention windows using incremental merges rather than full-history scans.",
+        code: "-- Incremental daily user grain rollup\nINSERT INTO user_daily_activity\nSELECT event_date, user_id, COUNT(*) AS events\nFROM raw_clicks WHERE event_date = :run_date\nGROUP BY event_date, user_id;"
+      },
+      {
+        role: "DBA",
+        exp: "8-10 YOE",
+        type: "Scenario",
+        question: "Scenario: A mission-critical OLTP database suffers severe I/O bottlenecks during month-end reporting while needing near-zero RPO/RTO disaster recovery. What architecture do you propose?",
+        answer: "Separate OLTP and reporting workloads: configure synchronous/semi-synchronous physical replication for High Availability (near-zero RPO/RTO failover) plus an asynchronous <strong>Read Replica</strong> (or CDC stream to an analytical warehouse) for heavy month-end reporting queries so read scans never contend with primary write WAL/redo I/O.",
+        code: "-- Route heavy read-only reporting queries to read-replica endpoint\nSET TRANSACTION READ ONLY;"
+      },
+      {
+        role: "Data Engineer",
+        exp: "8-10 YOE",
+        type: "Core",
+        question: "When would you choose a Hash Join vs. Merge Join vs. Nested Loop Join, and how does data skew affect distributed SQL engines?",
+        answer: "<strong>Nested Loop</strong> shines when joining a tiny outer set to a large indexed inner table. <strong>Hash Join</strong> excels on large unsorted datasets with equality predicates. <strong>Merge Join</strong> is fastest when both inputs are already pre-sorted on the join key. Data skew (e.g., 80% of rows having <code>user_id = NULL</code> or one mega-merchant) overloads a single worker node—mitigate via salting keys or filtering NULLs before joining.",
+        code: "-- Filter skew-causing NULL keys prior to distributed join\nSELECT * FROM clicks c JOIN users u ON c.user_id = u.user_id WHERE c.user_id IS NOT NULL;"
+      },
+      {
+        role: "DBA",
+        exp: "8-10 YOE",
+        type: "Core",
+        question: "Explain MVCC (Multi-Version Concurrency Control) trade-offs and how unmaintained old snapshots cause table bloat or undo exhaustion.",
+        answer: "MVCC prevents readers from blocking writers by keeping older row versions so each transaction sees a consistent point-in-time snapshot. However, if a long-running idle transaction stays open for hours, the database cannot vacuum/purge dead tuples (PostgreSQL) or reuse undo segments (Oracle), causing storage bloat, slower index scans, and snapshot-too-old errors.",
+        code: "-- Set idle-in-transaction timeouts to protect MVCC cleanup\n-- SET idle_in_transaction_session_timeout = '10min';"
       }
     ];
 
@@ -666,20 +1748,27 @@
     }
 
     function switchTab(mode) {
-      const isStudy = mode === "study";
-      document.getElementById("study-view").classList.toggle("hidden", !isStudy);
-      document.getElementById("practice-view").classList.toggle("hidden", isStudy);
-      document.getElementById("tab-study").classList.toggle("active", isStudy);
-      document.getElementById("tab-practice").classList.toggle("active", !isStudy);
+      document.getElementById("study-view").classList.toggle("hidden", mode !== "study");
+      document.getElementById("practice-view").classList.toggle("hidden", mode !== "practice");
+      document.getElementById("interview-view").classList.toggle("hidden", mode !== "interview");
+
+      document.getElementById("tab-study").classList.toggle("active", mode === "study");
+      document.getElementById("tab-practice").classList.toggle("active", mode === "practice");
+      document.getElementById("tab-interview").classList.toggle("active", mode === "interview");
+    }
+
+    function updateProgressBadge() {
+      const solvedCount = ROADMAP.filter(t => t.solved).length;
+      document.getElementById("progress-pill").textContent = `${solvedCount} / ${ROADMAP.length} Completed`;
     }
 
     function renderStudy() {
       const topicListEl = document.getElementById("topic-list");
-      topicListEl.innerHTML = LESSONS.map((lesson, idx) => `
+      topicListEl.innerHTML = ROADMAP.map((item, idx) => `
         <li>
           <button class="topic-btn ${idx === currentIndex ? "active" : ""}" data-idx="${idx}" type="button">
-            <span>${lesson.topicTitle}</span>
-            ${lesson.solved ? '<span class="done-tag">Done</span>' : ""}
+            <span>${item.title}</span>
+            ${item.solved ? '<span class="done-tag">Done</span>' : ""}
           </button>
         </li>
       `).join("");
@@ -688,25 +1777,82 @@
         btn.addEventListener("click", () => {
           currentIndex = Number(btn.dataset.idx);
           renderStudy();
-          syncPracticeSelection(false);
+          syncPracticeUI(true);
         });
       });
 
-      const current = LESSONS[currentIndex];
-      const pointsHtml = current.keyPoints.map(pt => `<li>${pt}</li>`).join("");
+      const current = ROADMAP[currentIndex];
+      const subtopicsHtml = current.subtopics.map(([subTitle, note]) => `
+        <div class="subtopic-card">
+          <div class="subtopic-header" onclick="this.nextElementSibling.classList.toggle('hidden')">
+            <span class="subtopic-title">${subTitle}</span>
+            <span style="font-size:0.8rem;color:var(--text-muted);">Toggle</span>
+          </div>
+          <div class="subtopic-body">
+            <span class="analogy-pill">Plain-English Explanation</span>
+            <p style="margin:0;">${note}</p>
+          </div>
+        </div>
+      `).join("");
+
       document.getElementById("study-content").innerHTML = `
-        <h3>${current.conceptTitle}</h3>
-        <p style="margin:0;color:var(--text-muted);">${current.summary}</p>
-        <pre><code>${current.exampleSql}</code></pre>
-        <p style="margin:0 0 0.35rem;font-weight:600;">Key Points:</p>
-        <ul style="margin:0 0 1.2rem;padding-left:1.25rem;color:var(--text-muted);">${pointsHtml}</ul>
-        <button class="action-btn" id="practice-topic-btn" type="button">Practice This Topic →</button>
+        <h3>${current.title}</h3>
+        <p style="margin:0 0 1rem;color:var(--text-muted);font-size:0.96rem;">${current.overview}</p>
+
+        <div class="diagram-box">
+          <div class="diagram-caption">Visual Concept Diagram — ${current.diagramCaption}</div>
+          ${current.diagram}
+        </div>
+
+        <h4>Practical SQL Example</h4>
+        <pre><code>${current.example}</code></pre>
+
+        <h4>Core Concepts Explained Simply (${current.subtopics.length} Topics)</h4>
+        ${subtopicsHtml}
+
+        <div class="scenario-card">
+          <div class="scenario-label">Real-World Scenario Check</div>
+          <p style="margin:0;font-size:0.93rem;"><strong>Scenario:</strong> ${current.scenario.question}</p>
+          <details class="solution-toggle">
+            <summary>Reveal Explanation &amp; Solution</summary>
+            <p style="margin:0.5rem 0 0;font-size:0.9rem;color:var(--text-muted);">${current.scenario.answer}</p>
+          </details>
+        </div>
+
+        <div class="controls" style="margin-top:1.25rem;">
+          <button class="action-btn" id="practice-topic-btn" type="button">Go to Blank Editor &amp; Solve Challenge →</button>
+        </div>
       `;
 
       document.getElementById("practice-topic-btn").addEventListener("click", () => {
-        syncPracticeSelection(true);
+        syncPracticeUI(true);
         switchTab("practice");
       });
+    }
+
+    function renderSchemaTabs() {
+      const tabsEl = document.getElementById("schema-tabs");
+      tabsEl.innerHTML = SAMPLE_TABLES.map(tbl => `
+        <button class="schema-pill ${tbl === activePreviewTable ? "active" : ""}" data-tbl="${tbl}" type="button">${tbl}</button>
+      `).join("");
+
+      tabsEl.querySelectorAll(".schema-pill").forEach(btn => {
+        btn.addEventListener("click", () => {
+          activePreviewTable = btn.dataset.tbl;
+          renderSchemaTabs();
+          refreshTablePreview();
+        });
+      });
+    }
+
+    function refreshTablePreview() {
+      if (!db) return;
+      const previewEl = document.getElementById("table-preview");
+      try {
+        renderTable(db.exec(`SELECT * FROM ${activePreviewTable};`), previewEl);
+      } catch (err) {
+        previewEl.innerHTML = `<p style="padding:0.75rem 1rem;margin:0;color:var(--text-muted);font-size:0.88rem;">Table <code>${activePreviewTable}</code> was modified or dropped. Click Reset Database to restore.</p>`;
+      }
     }
 
     function renderTable(results, container) {
@@ -716,53 +1862,50 @@
       }
       const { columns, values } = results[0];
       const ths = columns.map(c => `<th>${c}</th>`).join("");
-      const trs = values.map(row => `<tr>${row.map(v => `<td>${v}</td>`).join("")}</tr>`).join("");
+      const trs = values.map(row => `<tr>${row.map(v => `<td>${v === null ? "NULL" : v}</td>`).join("")}</tr>`).join("");
       container.innerHTML = `<table><thead><tr>${ths}</tr></thead><tbody>${trs}</tbody></table>`;
     }
 
-    function renderTaskList() {
-      const listEl = document.getElementById("task-list");
-      listEl.innerHTML = LESSONS.map((task, idx) => `
-        <li class="task-item ${idx === currentIndex ? "active" : ""} ${task.solved ? "completed" : ""}" data-idx="${idx}">
-          <span class="task-num">${task.solved ? "✓" : idx + 1}</span>
-          <div>${task.prompt}</div>
-        </li>
+    function populatePracticeSelect() {
+      const sel = document.getElementById("practice-topic-select");
+      sel.innerHTML = ROADMAP.map((item, idx) => `
+        <option value="${idx}" ${idx === currentIndex ? "selected" : ""}>${item.solved ? "✓ " : ""}${item.title}</option>
       `).join("");
-
-      listEl.querySelectorAll(".task-item").forEach(item => {
-        item.addEventListener("click", () => {
-          currentIndex = Number(item.dataset.idx);
-          syncPracticeSelection(true);
-          renderStudy();
-        });
-      });
-
-      const solvedCount = LESSONS.filter(t => t.solved).length;
-      document.getElementById("progress-pill").textContent = `${solvedCount} / ${LESSONS.length} Completed`;
     }
 
-    function syncPracticeSelection(resetEditor) {
-      const task = LESSONS[currentIndex];
-      document.getElementById("active-task-title").textContent = `Task ${currentIndex + 1} of ${LESSONS.length}`;
-      if (resetEditor) {
-        document.getElementById("sql-input").value = task.starter;
+    function syncPracticeUI(clearEditor) {
+      const task = ROADMAP[currentIndex];
+      populatePracticeSelect();
+      document.getElementById("active-task-title").textContent = `${task.title} — Hands-On Challenge`;
+      document.getElementById("task-prompt-box").innerHTML = `<strong>Problem Statement:</strong> ${task.prompt}`;
+      if (clearEditor) {
+        document.getElementById("sql-input").value = "";
       }
       document.getElementById("hint-box").style.display = "none";
       document.getElementById("hint-box").innerHTML = `<strong>Hint:</strong> ${task.hint}`;
       const fb = document.getElementById("feedback-box");
       fb.className = "feedback";
-      fb.textContent = "Write your SQL query above and click Run Query.";
-      renderTaskList();
+      fb.textContent = "Read the problem statement above and write your SQL query in the blank editor.";
+      updateProgressBadge();
+    }
+
+    function runInIsolatedDb(sqlText) {
+      const tempDb = new SQL.Database();
+      registerHelperSqlFunctions(tempDb);
+      tempDb.run(SEED_SQL);
+      const res = tempDb.exec(sqlText);
+      tempDb.close();
+      return res;
     }
 
     function checkSolution(userResults) {
-      const task = LESSONS[currentIndex];
-      const expectedResults = db.exec(task.solution);
+      const task = ROADMAP[currentIndex];
+      const expectedResults = runInIsolatedDb(task.solution);
       const fb = document.getElementById("feedback-box");
 
       if (!userResults || userResults.length === 0) {
         fb.className = "feedback fail";
-        fb.textContent = "Your query returned 0 rows.";
+        fb.textContent = "Your query returned 0 rows. Make sure your final statement returns the requested result set.";
         return;
       }
 
@@ -773,50 +1916,99 @@
 
       if (colsMatch && rowsMatch) {
         task.solved = true;
-        renderTaskList();
+        populatePracticeSelect();
         renderStudy();
+        updateProgressBadge();
         fb.className = "feedback pass";
-        if (currentIndex < LESSONS.length - 1) {
-          fb.innerHTML = `Correct! <a href="#" id="next-link" style="color:inherit;font-weight:600;margin-left:6px;">Continue to Task ${currentIndex + 2} →</a>`;
+        if (currentIndex < ROADMAP.length - 1) {
+          fb.innerHTML = `Correct! <a href="#" id="next-link" style="color:inherit;font-weight:600;margin-left:6px;">Continue to Topic ${currentIndex + 2} →</a>`;
           document.getElementById("next-link").addEventListener("click", e => {
             e.preventDefault();
             currentIndex += 1;
-            syncPracticeSelection(true);
+            syncPracticeUI(true);
             renderStudy();
           });
         } else {
-          fb.textContent = "All 5 tasks completed!";
+          fb.textContent = "Congratulations! You completed all 28 SQL roadmap challenges!";
         }
       } else {
         fb.className = "feedback fail";
-        fb.textContent = "Not quite right — check your selected columns, filter condition, or sort order.";
+        fb.textContent = "Not quite right — check the required column names, filtering/grouping logic, or sort order.";
       }
     }
 
     function runUserQuery() {
-      const query = document.getElementById("sql-input").value;
+      const query = document.getElementById("sql-input").value.trim();
       const outputEl = document.getElementById("query-output");
       const fb = document.getElementById("feedback-box");
+
+      if (!query) {
+        fb.className = "feedback fail";
+        fb.textContent = "The editor is empty. Type your SQL query first, then click Run Query.";
+        return;
+      }
 
       try {
         const results = db.exec(query);
         renderTable(results, outputEl);
-        renderTable(db.exec("SELECT * FROM movies;"), document.getElementById("table-preview"));
+        refreshTablePreview();
         checkSolution(results);
       } catch (err) {
         outputEl.innerHTML = `<p style="padding:0.75rem 1rem;margin:0;color:var(--error);font-size:0.9rem;"><strong>SQL Error:</strong> ${err.message}</p>`;
         fb.className = "feedback fail";
-        fb.textContent = "Fix the SQL syntax error shown in the results panel.";
+        fb.textContent = "Fix the SQL syntax error shown in the Query Results panel.";
       }
+    }
+
+    function renderInterviewQuestions() {
+      const roleVal = document.getElementById("iq-role-filter").value;
+      const expVal = document.getElementById("iq-exp-filter").value;
+      const typeVal = document.getElementById("iq-type-filter").value;
+      const searchVal = document.getElementById("iq-search").value.trim().toLowerCase();
+
+      const filtered = INTERVIEW_QUESTIONS.filter(item => {
+        if (roleVal !== "ALL" && item.role !== roleVal) return false;
+        if (expVal !== "ALL" && item.exp !== expVal) return false;
+        if (typeVal !== "ALL" && item.type !== typeVal) return false;
+        if (searchVal) {
+          const hay = `${item.question} ${item.answer} ${item.code}`.toLowerCase();
+          if (!hay.includes(searchVal)) return false;
+        }
+        return true;
+      });
+
+      document.getElementById("iq-count-label").textContent = `Showing ${filtered.length} of ${INTERVIEW_QUESTIONS.length} Questions`;
+
+      const gridEl = document.getElementById("iq-grid");
+      if (filtered.length === 0) {
+        gridEl.innerHTML = `<div class="panel"><p style="margin:0;color:var(--text-muted);">No interview questions match your selected filters.</p></div>`;
+        return;
+      }
+
+      gridEl.innerHTML = filtered.map((item, idx) => `
+        <article class="iq-card">
+          <div class="iq-badges">
+            <span class="role-badge">${item.role}</span>
+            <span class="exp-badge">${item.exp}</span>
+            <span class="scenario-badge">${item.type === "Scenario" ? "Scenario-Based" : "Core Concept"}</span>
+          </div>
+          <p class="iq-question">Q${idx + 1}. ${item.question}</p>
+          <p class="iq-answer">${item.answer}</p>
+          <pre style="margin:0.25rem 0 0;"><code>${item.code}</code></pre>
+        </article>
+      `).join("");
     }
 
     function initDatabase() {
       if (db) db.close();
       db = new SQL.Database();
+      registerHelperSqlFunctions(db);
       db.run(SEED_SQL);
-      renderTable(db.exec("SELECT * FROM movies;"), document.getElementById("table-preview"));
-      syncPracticeSelection(true);
+      renderSchemaTabs();
+      refreshTablePreview();
+      syncPracticeUI(true);
       renderStudy();
+      renderInterviewQuestions();
     }
 
     initVisitorCounter();
@@ -830,16 +2022,44 @@
 
     document.getElementById("tab-study").addEventListener("click", () => switchTab("study"));
     document.getElementById("tab-practice").addEventListener("click", () => switchTab("practice"));
+    document.getElementById("tab-interview").addEventListener("click", () => switchTab("interview"));
+
+    document.getElementById("practice-topic-select").addEventListener("change", e => {
+      currentIndex = Number(e.target.value);
+      syncPracticeUI(true);
+      renderStudy();
+    });
+
+    document.getElementById("prev-topic-btn").addEventListener("click", () => {
+      if (currentIndex > 0) {
+        currentIndex -= 1;
+        syncPracticeUI(true);
+        renderStudy();
+      }
+    });
+
+    document.getElementById("next-topic-btn").addEventListener("click", () => {
+      if (currentIndex < ROADMAP.length - 1) {
+        currentIndex += 1;
+        syncPracticeUI(true);
+        renderStudy();
+      }
+    });
+
     document.getElementById("run-btn").addEventListener("click", runUserQuery);
+    document.getElementById("clear-editor-btn").addEventListener("click", () => {
+      document.getElementById("sql-input").value = "";
+      document.getElementById("sql-input").focus();
+    });
     document.getElementById("hint-btn").addEventListener("click", () => {
       const hintBox = document.getElementById("hint-box");
       hintBox.style.display = hintBox.style.display === "none" ? "block" : "none";
     });
     document.getElementById("reset-btn").addEventListener("click", () => {
-      LESSONS.forEach(t => t.solved = false);
+      ROADMAP.forEach(t => t.solved = false);
       initDatabase();
       document.getElementById("query-output").innerHTML =
-        "<p style='padding:0.75rem 1rem;margin:0;color:var(--text-muted);font-size:0.9rem;'>Database reset. Run a query to see results.</p>";
+        "<p style='padding:0.75rem 1rem;margin:0;color:var(--text-muted);font-size:0.9rem;'>Database reset. Write a query in the blank editor to begin.</p>";
     });
     document.getElementById("sql-input").addEventListener("keydown", e => {
       if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
@@ -847,6 +2067,11 @@
         runUserQuery();
       }
     });
+
+    ["iq-role-filter", "iq-exp-filter", "iq-type-filter"].forEach(id => {
+      document.getElementById(id).addEventListener("change", renderInterviewQuestions);
+    });
+    document.getElementById("iq-search").addEventListener("input", renderInterviewQuestions);
   </script>
 </body>
 </html>
